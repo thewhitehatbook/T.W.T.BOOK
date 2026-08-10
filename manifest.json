@@ -1,0 +1,14 @@
+{
+  "background_color": "#ffffff",
+  "dir": "rtl",
+  "display": "standalone",
+  "name": "رواية القبعة البيضاء",
+  "orientation": "any",
+  "scope": "/T.W.T.BOOK/",
+  "short_name": "القبعة البيضاء",
+  "start_url": "/T.W.T.BOOK/index.html",
+  "theme_color": "#ffffff",
+  "id": "/T.W.T.BOOK/",
+  "description": "تطبيق قراءة رواية القبعة البيضاء",
+  "lang": "ar"
+}

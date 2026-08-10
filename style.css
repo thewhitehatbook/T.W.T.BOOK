@@ -1,0 +1,166 @@
+body {
+    font-family: 'arial', sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    direction: rtl;
+    overflow: hidden;
+}
+
+.container {
+    width: 95%;
+    max-width: 1300px;
+    height: 92vh;
+    background-image: url('sk2.png');
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    text-align: center;
+    overflow-y: auto;
+    position: relative;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.container::-webkit-scrollbar {
+    display: none;
+}
+
+.screen {
+    display: none;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.screen.active {
+    display: flex;
+}
+
+h1 {
+    font-size: 2rem;
+    color: #ffffff;
+    text-shadow: 4px 4px 10px rgba(0,0,0,0.8);
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #fdfcfc;
+    text-shadow: 3px 3px 8px rgba(0,0,0,0.8);
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+/* شبكة المواسم (موسمين بكل صف لتناسب الهواتف تماماً) */
+.timeline-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    max-width: 100%;
+    margin: 10px auto;
+    padding: 10px 0;
+}
+
+.timeline-item {
+    position: relative;
+    cursor: pointer;
+}
+
+.timeline-content {
+    background: rgba(249, 249, 249, 0.95);
+    border: 1px solid #e0e0e0;
+    padding: 15px 10px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    text-align: center;
+    height: 85px;
+}
+
+.timeline-item:hover .timeline-content {
+    background: rgba(255, 230, 230, 0.95);
+    border-color: #e74c3c;
+    transform: translateY(-3px);
+}
+
+.timeline-content h3 {
+    margin: 0;
+    color: #4a332c;
+    font-size: 1rem;
+}
+
+.timeline-content p {
+    margin: 0;
+    color: #666;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+/* شبكة الحلقات */
+.episodes-list-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.list-row {
+    background: rgba(249, 249, 249, 0.95);
+    border: 1px solid #e0e0e0;
+    padding: 12px 8px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+}
+
+.list-row h3 {
+    margin: 0;
+    color: #4a332c;
+    font-size: 0.9rem;
+}
+
+.download-btn {
+    color: #5c4033;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.75rem;
+    background: #fff;
+    padding: 5px 10px;
+    border: 1px solid #5c4033;
+    border-radius: 6px;
+}
+
+.download-btn:hover {
+    background: #e74c3c;
+    color: #fff;
+    border-color: #e74c3c;
+}
+
+.back-btn {
+    align-self: flex-start;
+    background: #5c4033;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
