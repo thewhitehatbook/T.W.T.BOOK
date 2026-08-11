@@ -6,6 +6,7 @@ const seasons = [
 
 function initSeasons() {
     let container = document.getElementById('seasons-container');
+    if (!container) return;
     container.innerHTML = '';
 
     seasons.forEach((season, index) => {
@@ -13,14 +14,13 @@ function initSeasons() {
         let item = document.createElement('div');
         item.className = 'timeline-item';
         
-        // كمثال: نفترض الموسم الأول متاح، وباقي المواسم "قريباً"
-        // (تقدر تغير الشرط حسب الحلقات أو المواسم المتوفرة عندك)
+        // الموسم الأول فقط متاح، وباقي المواسم (من 2 إلى 8) قريباً
         if (seasonNum === 1) {
             item.onclick = function() { openEpisodes(seasonNum, season); };
             item.innerHTML = `
                 <div class="timeline-content">
                     <h3>${season}</h3>
-                    <p>متاح</p>
+                    <p style="color: #27ae60;">متاح</p>
                 </div>
             `;
         } else {
@@ -44,25 +44,30 @@ function showComingSoon(seasonName) {
 
 // دالة فتح الحلقات للموسم المتاح
 function openEpisodes(seasonNum, seasonName) {
-    document.getElementById('seasons-screen').classList.remove('active');
-    document.getElementById('episodes-screen').classList.add('active');
+    let seasonsScreen = document.getElementById('seasons-screen');
+    let episodesScreen = document.getElementById('episodes-screen');
     
-    document.getElementById('season-title').innerText = seasonName;
+    if (seasonsScreen) seasonsScreen.classList.remove('active');
+    if (episodesScreen) episodesScreen.classList.add('active');
+    
+    let seasonTitle = document.getElementById('season-title');
+    if (seasonTitle) seasonTitle.innerText = seasonName;
     
     let container = document.getElementById('episodes-container');
+    if (!container) return;
     container.innerHTML = '';
     
-    for (let i = 1; i <= 24; i++) {
+    for (let i = 1; i <= 9; i++) {
         let row = document.createElement('div');
         row.className = 'list-row';
         
         let fileName = `s${seasonNum}_ep${i}.docx`;
         
-        // كمثال: نفرض أول 5 حلقات من الموسم الأول متاحة، والباقي "قريباً"
-        if (seasonNum === 1 && i <= 1) {
+        // بالموسم الأول: نخلي الحلقة الأولى فقط متاحة للتحميل، وباقي الحلقات (من 2 إلى 24) قريباً
+        if (seasonNum === 1 && i === 1) {
             row.innerHTML = `
                 <h3>الحلقة ${i}</h3>
-                <a href="${fileName}" download class="download-btn">تحميل الحلقة</a>
+                <a href="${fileName}" download class="download-btn" onclick="checkWordApp(event, '${fileName}')">تحميل الحلقة</a>
             `;
         } else {
             row.innerHTML = `
@@ -75,10 +80,24 @@ function openEpisodes(seasonNum, seasonName) {
     }
 }
 
+// دالة التحقق والتنبيه لتطبيق الوورد
+function checkWordApp(event, fileName) {
+    let hasWord = confirm("هذا الملف بصيغة Word (.docx).\nهل لديك تطبيق Microsoft Word أو برنامج عارض للوورد مثبت على جهازك؟\n\nاضغط 'موافق' للتحميل، أو 'إلغاء' لتوجيهك لتحميل التطبيق.");
+    
+    if (!hasWord) {
+        event.preventDefault(); // يمنع التحميل المؤقت
+        alert("يرجى تحميل تطبيق Microsoft Word من متجر التطبيقات لكي تتمكن من قراءة الرواية!");
+        window.location.href = "https://play.google.com/store/apps/details?id=com.microsoft.office.word";
+    }
+}
+
 // دالة العودة للمواسم
 function goBackToSeasons() {
-    document.getElementById('episodes-screen').classList.remove('active');
-    document.getElementById('seasons-screen').classList.add('active');
+    let episodesScreen = document.getElementById('episodes-screen');
+    let seasonsScreen = document.getElementById('seasons-screen');
+    
+    if (episodesScreen) episodesScreen.classList.remove('active');
+    if (seasonsScreen) seasonsScreen.classList.add('active');
 }
 
 window.onload = function() {
