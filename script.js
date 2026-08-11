@@ -1,7 +1,7 @@
 // مصفوفة بأسماء المواسم الثمانية
 const seasons = [
     "الموسم الأول", "الموسم الثاني", "الموسم الثالث", "الموسم الرابع",
-    "الموسم الخامس", "الموسم السادس", "الموسم السابع", "الموسم الثامن"
+    "الموسم الخامس", "الموسم السادس",
 ];
 
 function initSeasons() {
@@ -26,7 +26,7 @@ function initSeasons() {
         } else {
             item.onclick = function() { showComingSoon(season); };
             item.innerHTML = `
-                <div class="timeline-content" style="opacity: 0.8;">
+                <div class="timeline-content" style="opacity: 0.7;">
                     <h3>${season}</h3>
                     <p style="color: #e74c3c;">قريباً</p>
                 </div>
