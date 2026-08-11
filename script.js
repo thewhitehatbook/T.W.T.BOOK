@@ -81,8 +81,8 @@ function openEpisodes(seasonNum, seasonName) {
 }
 
 // دالة التحقق والتنبيه لتطبيق الوورد
-function checkWordApp(event, fileName) {
-    let hasWord = confirm("هذا الملف بصيغة Word (.docx).\nهل لديك تطبيق Microsoft Word أو برنامج عارض للوورد مثبت على جهازك؟\n\nاضغط 'موافق' للتحميل، أو 'إلغاء' لتوجيهك لتحميل التطبيق.");
+function checkWordApp(event) {
+    let hasWord = confirm("\nهل لديك تطبيق Microsoft Word على جهازك؟\n\ ");
     
     if (!hasWord) {
         event.preventDefault(); // يمنع التحميل المؤقت
