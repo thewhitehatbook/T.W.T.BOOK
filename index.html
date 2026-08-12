@@ -3,31 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تطبيق رواية القبعة البيضاء</title>
+    <title>رواية القبعة البيضاء | سجاد ثامر</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="maniffest" href="manifest.json">
 </head>
-<body>
+<body class="dark-mode" id="body-theme">
 
     <div class="container">
-        <!-- شاشة المواسم الرئيسية -->
-        <div id="seasons-screen" class="screen active">
-            <h1>رواية القبعة البيضاء</h1>
-            <p class="subtitle">رواية سجاد ثامر</p>
+        
+        <!-- زر التبديل السريع للوضع الداكن/الفاتح بالاعلى -->
+        <div class="top-bar">
+            <button class="icon-btn" onclick="toggleTheme()" title="تغيير الثيم">🌓</button>
+        </div>
+
+        <!-- 1. واجهة البداية الرئيسية -->
+        <div id="home-screen" class="screen active">
+            <h1>القبعة البيضاء</h1>
+            <p class="subtitle">تأليف الكاتب: سجاد ثامر</p>
             
-            <div class="timeline-container" id="seasons-container">
-                <!-- سيتم توليد الـ 8 مواسم برمجياً لتجنب التكرار والتخربط -->
+            <!-- شريط تقدم القراءة العام -->
+            <div class="progress-box">
+                <div class="progress-info">
+                    <span>نسبة  قراءة الحلقات</span>
+                    <span id="progress-text">0%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progress-fill" style="width: 0%;"></div>
+                </div>
+            </div>
+
+            <div class="menu-container">
+                <button class="menu-btn" onclick="goToSeasons()">
+                    <h3>📖 ابدأ القراءة</h3>
+                    <span class="badge green">متاح</span>
+                </button>
+
+                <button class="menu-btn" onclick="showAbout()">
+                    <h3>✨ عن الرواية</h3>
+                    <span class="badge blue">نبذة</span>
+                </button>
+
+                
+
+                <button class="menu-btn" onclick="window.open('https://www.instagram.com/sd.kg.x1?igsh=c3draXc1YzA5YjY2')">
+                    <h3>💬 حساب الكاتب</h3>
+                    <span class="badge pink">تواصل</span>
+                </button>
+
+                <button class="menu-btn" onclick="exitApp()">
+                    <h3>🚪 خروج من التطبيق</h3>
+                    <span class="badge red">إغلاق</span>
+                </button>
             </div>
         </div>
 
-        <!-- شاشة الحلقات -->
+        <!-- 2. شاشة المواسم -->
+        <div id="seasons-screen" class="screen">
+            <button class="back-btn" onclick="goHome()">← الرئيسية</button>
+            <h1 class="screen-title">المواسم</h1>
+            <p class="subtitle">اختر الموسم للانتقال للحلقات</p>
+            <div class="list-container" id="seasons-container"></div>
+        </div>
+
+        <!-- 3. شاشة الحلقات -->
         <div id="episodes-screen" class="screen">
-            <button class="back-btn" onclick="goBackToSeasons()">← رجوع للمواسم</button>
-            <h1 id="season-title"></h1>
-            <div class="episodes-list-container" id="episodes-container">
-                <!-- سيتم توليد الـ 24 حلقة للموسم المختار برمجياً -->
+            <button class="back-btn" onclick="goBackToSeasons()">← المواسم</button>
+            <h1 id="season-title" class="screen-title"></h1>
+            
+            <!-- خانة البحث داخل الحلقات -->
+            <input type="text" id="search-input" class="search-box" placeholder="ابحث عن رقم الحلقة..." onkeyup="filterEpisodes()">
+            
+            <div class="list-container" id="episodes-container"></div>
+        </div>
+
+        <!-- 4. شاشة عن القصة -->
+        <div id="about-screen" class="screen">
+            <button class="back-btn" onclick="goHome()">← الرئيسية</button>
+            <h1 class="screen-title">عن القصة</h1>
+            <p class="subtitle">تفاصيل العمل الإبداعي</p>
+            <div class="about-box">
+                <p><strong>رواية القبعة البيضاء</strong> قصة عن طفل يحلم أن يكون ساموراي ذهبي لانقاذ شعبه من الكاتب <strong>سجاد ثامر</strong>.</p>
+                <br>
+                <p>تأخذك الرواية في رحلة عميقة مليئة بالأحداث الغامضة والمواقف المعقدة، ساموراي مع قدرات خيالية .</p>
             </div>
         </div>
+
     </div>
 
     <script src="script.js"></script>
