@@ -1,201 +1,291 @@
-const seasons = [
-    "الموسم الأول", "الموسم الثاني", "الموسم الثالث", 
-    "الموسم الرابع", "الموسم الخامس", "الموسم السادس"
-];
+// ==========================================================================
+// المحرك البرمجي الإمبراطوري المتكامل - رواية القبعة البيضاء (سجاد ثامر)
+// ==========================================================================
 
-// التنقل بين الشاشات
-function goToSeasons() {
-    switchScreen('seasons-screen');
-    initSeasons();
-}
+'use strict';
 
-function goHome() {
-    switchScreen('home-screen');
-    updateRatingBadge();
-    updateProgress();
-}
+const SamuraiAppEngine = {
+    version: '4.3.0',
+    author: 'سجاد ثامر',
+    activeSeason: 1,
+    totalSeasons: 6,
+    episodesPerSeason: 9,
+    unlockedEpisodesDownloadLimit: 2,
+    storageKeys: {
+        ratings: 'epic_samurai_ratings',
+        theme: 'epic_samurai_theme',
+        watched: 'epic_samurai_watched_episodes'
+    },
 
-function goBackToSeasons() {
-    switchScreen('seasons-screen');
-}
+    init() {
+        this.restoreUserThemePreferences();
+        this.preloadCinematicLoader();
+        this.buildSamuraiSeasonsArchitecture();
+    },
 
-function showAbout() {
-    switchScreen('about-screen');
-}
+    preloadCinematicLoader() {
+        setTimeout(() => {
+            const loaderElement = document.getElementById('epicCinematicLoader');
+            if (loaderElement) {
+                loaderElement.style.opacity = '0';
+                setTimeout(() => loaderElement.remove(), 750);
+            }
+        }, 1000);
+    },
 
-function switchScreen(screenId) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(screenId).classList.add('active');
-}
-
-// تبديل الوضع الداكن والفاتح
-function toggleTheme() {
-    let body = document.getElementById('body-theme');
-    body.classList.toggle('light-mode');
-    body.classList.toggle('dark-mode');
-    let themeName = body.classList.contains('light-mode') ? 'light' : 'dark';
-    localStorage.setItem('app_theme', themeName);
-}
-
-// زر الخروج من التطبيق
-function exitApp() {
-    if (confirm("هل تريد حقاً إغلاق التطبيق؟")) {
-        window.close();
-        // إذا المتصفح منع الإغلاق التلقائي، نعرض رسالة ودية
-        alert("شكراً لاستخدامك تطبيق رواية القبعة البيضاء. يمكنك إغلاق الصفحة الآن.");
-    }
-}
-
-// توليد المواسم
-function initSeasons() {
-    let container = document.getElementById('seasons-container');
-    container.innerHTML = '';
-
-    seasons.forEach((season, index) => {
-        let seasonNum = index + 1;
-        let row = document.createElement('div');
-        row.className = 'list-row';
-        
-        if (seasonNum === 1) {
-            row.innerHTML = `
-                <h3>${season}</h3>
-                <button class="action-btn" onclick="openEpisodes(${seasonNum}, '${season}')">فتح</button>
-            `;
-        } else {
-            row.innerHTML = `
-                <h3>${season}</h3>
-                <button class="action-btn coming-btn" onclick="alert('${season} سيتم إطلاقه قريباً!')">قريباً</button>
-            `;
+    restoreUserThemePreferences() {
+        const savedTheme = localStorage.getItem(this.storageKeys.theme);
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-mode-active');
+            const iconEl = document.getElementById('themeToggleIcon');
+            if (iconEl) iconEl.innerText = '☀️';
         }
-        container.appendChild(row);
-    });
-}
+    },
 
-// عرض الحلقات مع حالة المشاهدة
-function openEpisodes(seasonNum, seasonName) {
-    switchScreen('episodes-screen');
-    document.getElementById('season-title').innerText = seasonName;
-    document.getElementById('search-input').value = '';
-    
-    renderEpisodesList(seasonNum, seasonName);
-}
+    toggleThemeMode() {
+        const bodyEl = document.body;
+        bodyEl.classList.toggle('light-mode-active');
+        const isLight = bodyEl.classList.contains('light-mode-active');
+        localStorage.setItem(this.storageKeys.theme, isLight ? 'light' : 'dark');
+        const iconEl = document.getElementById('themeToggleIcon');
+        if (iconEl) iconEl.innerText = isLight ? '☀️' : '🌒';
+    },
 
-function renderEpisodesList(seasonNum, seasonName, filterText = '') {
-    let container = document.getElementById('episodes-container');
-    container.innerHTML = '';
-    
-    let watchedEpisodes = JSON.parse(localStorage.getItem(`watched_s${seasonNum}`) || '[]');
-    
-    for (let i = 1; i <= 9; i++) {
-        let epName = `الحلقة ${i}`;
-        if (filterText && !epName.includes(filterText)) continue;
-
-        let row = document.createElement('div');
-        row.className = 'list-row';
-        let fileName = `s${seasonNum}_ep${i}.docx`;
-        let isWatched = watchedEpisodes.includes(i);
-        let watchedLabel = isWatched ? '<span style="color: #27ae60; font-size: 0.75rem; display: block;">✓ تمت المشاهدة</span>' : '';
-        
-        if (seasonNum === 1 && (i === 1 || i === 2)) {
-            row.innerHTML = `
-                <div>
-                    <h3>${epName}</h3>
-                    ${watchedLabel}
-                </div>
-                <a href="${fileName}" download class="action-btn" onclick="markAsWatched(${seasonNum}, ${i})">تحميل</a>
-            `;
-        } else {
-            row.innerHTML = `
-                <div>
-                    <h3>${epName}</h3>
-                    ${watchedLabel}
-                </div>
-                <button class="action-btn coming-btn" onclick="alert('${epName} من ${seasonName} ستتوفر قريباً!')">قريباً</button>
-            `;
+    executeExitProtocol() {
+        if (confirm("هل أنت متأكد من رغبتك في إغلاق بوابات الملحمة والخروج؟")) {
+            window.close();
         }
-        container.appendChild(row);
-    }
-}
+    },
 
-// محرك البحث الفوري
-function filterEpisodes() {
-    let query = document.getElementById('search-input').value;
-    renderEpisodesList(1, 'الموسم الأول', query);
-}
+    playKatanaSlashSound() {
+        try {
+            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContextClass) return;
+            const audioCtx = new AudioContextClass();
+            const oscillatorNode = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
 
-function markAsWatched(seasonNum, epNum) {
-    let key = `watched_s${seasonNum}`;
-    let watchedEpisodes = JSON.parse(localStorage.getItem(key) || '[]');
-    if (!watchedEpisodes.includes(epNum)) {
-        watchedEpisodes.push(epNum);
-        localStorage.setItem(key, JSON.stringify(watchedEpisodes));
-    }
-    updateProgress();
-}
+            oscillatorNode.type = 'triangle';
+            oscillatorNode.frequency.setValueAtTime(520, audioCtx.currentTime);
+            oscillatorNode.frequency.exponentialRampToValueAtTime(65, audioCtx.currentTime + 0.2);
+            
+            gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
 
-// حساب نسبة إنجاز قراءة الحلقات المتاحة للتطبيق
-function updateProgress() {
-    let watched1 = JSON.parse(localStorage.getItem('watched_s1') || '[]');
-    let totalAvailable = 2; 
-    let count = watched1.filter(ep => ep === 1 || ep === 2).length;
-    let percentage = Math.round((count / totalAvailable) * 100);
-    
-    let fill = document.getElementById('progress-fill');
-    let text = document.getElementById('progress-text');
-    if (fill && text) {
-        fill.style.width = percentage + '%';
-        text.innerText = percentage + '%';
-    }
-}
+            oscillatorNode.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            oscillatorNode.start();
+            oscillatorNode.stop(audioCtx.currentTime + 0.2);
+        } catch (err) {}
+    },
 
-// نظام التقييم الذكي ومتوسط النجوم
-function rateStory() {
-    let userName = prompt("أهلاً بك! أرجو كتابة اسمك أو معرفك:");
-    if (!userName || userName.trim() === "") return;
+    switchView(targetViewId) {
+        const allSections = document.querySelectorAll('.epic-view-section');
+        allSections.forEach(sec => sec.classList.remove('active'));
+        const targetSec = document.getElementById(targetViewId);
+        if (targetSec) {
+            targetSec.classList.add('active');
+            const viewport = document.getElementById('epicViewportCanvas');
+            if (viewport) viewport.scrollTop = 0;
+        }
+    },
 
-    let ratingInput = prompt("مرحباً " + userName + "! ما هو تقييمك للرواية من 0 إلى 5 نجوم؟");
-    if (ratingInput === null || ratingInput === "") return;
+    seasonNames: ["", "الأول (نصل الظل)", "الثاني (عهد الدم)", "الثالث", "الرابع", "الخامس", "السادس"],
 
-    let rating = parseFloat(ratingInput);
-    if (isNaN(rating) || rating < 0 || rating > 5) {
-        alert("يرجى إدخال رقم صحيح بين 0 و 5.");
-        return;
-    }
+    buildSamuraiSeasonsArchitecture() {
+        const seasonsGridBox = document.getElementById('epicSeasonsGridContainer');
+        if (!seasonsGridBox) return;
+        seasonsGridBox.innerHTML = '';
 
-    let ratingsList = JSON.parse(localStorage.getItem('story_ratings') || '[]');
-    ratingsList.push({ name: userName, score: rating });
-    localStorage.setItem('story_ratings', JSON.stringify(ratingsList));
+        for (let i = 1; i <= this.totalSeasons; i++) {
+            const seasonBox = document.createElement('div');
+            if (i === 1) {
+                seasonBox.className = 'epic-season-box unlocked';
+                seasonBox.onclick = () => {
+                    this.playKatanaSlashSound();
+                    this.renderSeasonEpisodes(i);
+                };
+                seasonBox.innerHTML = `
+                    <div class="season-num-big">0${i}</div>
+                    <div class="season-name-txt">الموسم ${this.seasonNames[i].split(' ')[0]}</div>
+                    <div class="season-status-pill">متاح</div>
+                `;
+            } else {
+                seasonBox.className = 'epic-season-box locked';
+                seasonBox.onclick = () => {
+                    this.playKatanaSlashSound();
+                    alert(`🔒 هذا الموسم مقفل بعهد الشرف.`);
+                };
+                seasonBox.innerHTML = `
+                    <div class="season-num-big">🔒</div>
+                    <div class="season-name-txt">الموسم ${this.seasonNames[i].split(' ')[0]}</div>
+                    <div class="season-status-pill">مغلق بإحكام</div>
+                `;
+            }
+            seasonsGridBox.appendChild(seasonBox);
+        }
+    },
 
-    updateRatingBadge();
-    
-    let totalScore = 0;
-    ratingsList.forEach(item => totalScore += item.score);
-    let averageRating = (totalScore / ratingsList.length).toFixed(1);
+    getWatchedEpisodes() {
+        return JSON.parse(localStorage.getItem(this.storageKeys.watched) || '[]');
+    },
 
-    alert("شكراً لك يا " + userName + "! تم تسجيل تقييمك بنجاح.\n⭐ التقييم العام: " + averageRating + " من 5 (" + ratingsList.length + " مقيمين)");
-}
+    markEpisodeAsWatched(seasonNum, epNum) {
+        const watchedList = this.getWatchedEpisodes();
+        const epId = `s${seasonNum}_e${epNum}`;
+        if (!watchedList.includes(epId)) {
+            watchedList.push(epId);
+            localStorage.setItem(this.storageKeys.watched, JSON.stringify(watchedList));
+        }
+        this.renderSeasonEpisodes(seasonNum);
+    },
 
-function updateRatingBadge() {
-    let ratingsList = JSON.parse(localStorage.getItem('story_ratings') || '[]');
-    let badge = document.getElementById('rating-badge');
-    if (ratingsList.length > 0) {
-        let totalScore = 0;
-        ratingsList.forEach(item => totalScore += item.score);
-        let avg = (totalScore / ratingsList.length).toFixed(1);
-        badge.innerText = `⭐ ${avg}`;
-    } else {
-        badge.innerText = "تقييم";
-    }
-}
+    updateCompletionProgress(seasonNum) {
+        const watchedList = this.getWatchedEpisodes();
+        const watchedInSeason = watchedList.filter(id => id.startsWith(`s${seasonNum}_`)).length;
+        const percentage = Math.round((watchedInSeason / this.unlockedEpisodesDownloadLimit) * 100);
+        
+        const textEl = document.getElementById('seasonCompletionText');
+        const barEl = document.getElementById('seasonCompletionBar');
+        
+        if(textEl) textEl.innerText = `${percentage}%`;
+        if(barEl) barEl.style.width = `${percentage}%`;
+    },
 
-// تحميل الإعدادات المحفوظة مسبقاً عند فتح التطبيق
-window.onload = function() {
-    updateRatingBadge();
-    updateProgress();
+    renderSeasonEpisodes(seasonNum) {
+        this.activeSeason = seasonNum;
+        this.switchView('view-episodes');
+        
+        const titleEl = document.getElementById('epicActiveSeasonTitle');
+        if (titleEl) titleEl.innerText = `الموسم ${this.seasonNames[seasonNum]}`;
 
-    let savedTheme = localStorage.getItem('app_theme');
-    if (savedTheme === 'light') {
-        document.getElementById('body-theme').classList.remove('dark-mode');
-        document.getElementById('body-theme').classList.add('light-mode');
+        const episodesContainer = document.getElementById('epicEpisodesListContainer');
+        if (!episodesContainer) return;
+        episodesContainer.innerHTML = '';
+        
+        const watchedList = this.getWatchedEpisodes();
+
+        for (let ep = 1; ep <= this.episodesPerSeason; ep++) {
+            const rowEl = document.createElement('div');
+            const epId = `s${seasonNum}_e${ep}`;
+            const isWatched = watchedList.includes(epId);
+            const watchedBadgeHTML = isWatched ? `<span class="watched-badge">✔️ تمت المشاهدة</span>` : '';
+
+            if (ep <= this.unlockedEpisodesDownloadLimit) {
+                rowEl.className = 'epic-episode-row';
+                rowEl.innerHTML = `
+                    <div class="episode-info-grp">
+                        <h4 style="display:flex; align-items:center; flex-wrap:wrap; gap:5px;">الحلقة رقم ${ep} ${watchedBadgeHTML}</h4>
+                    </div>
+                    <button class="epic-download-btn" onclick="SamuraiAppEngine.handleEpisodeDownload(${seasonNum}, ${ep});">
+                        ${isWatched ? 'إعادة التحميل' : '📥 تحميل / قراءة'}
+                    </button>
+                `;
+            } else {
+                rowEl.className = 'epic-episode-row locked';
+                rowEl.innerHTML = `
+                    <div class="episode-info-grp">
+                        <h4>الحلقة رقم ${ep}</h4>
+                    </div>
+                    <div class="epic-locked-badge">🔒 مقفل</div>
+                `;
+            }
+            episodesContainer.appendChild(rowEl);
+        }
+        this.updateCompletionProgress(seasonNum);
+    },
+
+    handleEpisodeDownload(seasonNum, epNum) {
+        this.playKatanaSlashSound();
+        this.markEpisodeAsWatched(seasonNum, epNum);
+        
+        const fileName = `s${seasonNum}_ep${epNum}.docx`;
+        try {
+            const anchor = document.createElement('a');
+            anchor.href = fileName;
+            anchor.download = fileName;
+            document.body.appendChild(anchor);
+            anchor.click();
+            document.body.removeChild(anchor);
+        } catch (err) {}
+    },
+
+    // دوال النوافذ المنبثقة والتقييم
+    openModal(modalId) {
+        this.playKatanaSlashSound();
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'flex';
+            if (modalId === 'epicHonorModal') {
+                this.renderRatingsStats();
+            }
+        }
+    },
+
+    closeModal(modalId) {
+        this.playKatanaSlashSound();
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    },
+
+    submitRating() {
+        const nameInput = document.getElementById('epicRaterName');
+        const scoreInput = document.getElementById('epicRaterScore');
+
+        if (!nameInput || !scoreInput) return;
+
+        const raterName = nameInput.value.trim();
+        const raterScore = parseFloat(scoreInput.value);
+
+        if (!raterName) {
+            alert("عذراً، يجب إدخال اسمك أو لقبك الكريم أولاً.");
+            return;
+        }
+
+        if (isNaN(raterScore) || raterScore < 0 || raterScore > 5) {
+            alert("قيمة التقييم غير صالحة. يجب أن تكون حصراً بين 0 و 5.");
+            return;
+        }
+
+        const ratingsList = JSON.parse(localStorage.getItem(this.storageKeys.ratings) || '[]');
+        ratingsList.push({ name: raterName, score: raterScore });
+        localStorage.setItem(this.storageKeys.ratings, JSON.stringify(ratingsList));
+
+        nameInput.value = '';
+        scoreInput.value = '';
+
+        this.renderRatingsStats();
+        alert(`أيها المحارب الباسل (${raterName})، تم توثيق تقييمك بنجاح!`);
+    },
+
+    renderRatingsStats() {
+        const ratingsList = JSON.parse(localStorage.getItem(this.storageKeys.ratings) || '[]');
+        const statsBox = document.getElementById('epicRatingStatsDisplay');
+        if (!statsBox) return;
+
+        if (ratingsList.length === 0) {
+            statsBox.innerText = "لم يتم تسجيل أي تقييمات بعد.";
+            return;
+        }
+
+        let sum = 0;
+        ratingsList.forEach(item => sum += item.score);
+        const avg = (sum / ratingsList.length).toFixed(1);
+        statsBox.innerText = `⭐ متوسط التقييمات: ${avg} / 5 (عبر مشاركة ${ratingsList.length} محاربين)`;
     }
 };
+
+window.addEventListener('DOMContentLoaded', () => SamuraiAppEngine.init());
+
+// الدوال العامة المربوطة بالأزرار
+function playEpicKatanaSound() { SamuraiAppEngine.playKatanaSlashSound(); }
+function switchEpicView(viewId) { SamuraiAppEngine.switchView(viewId); }
+function toggleEpicThemeMode() { SamuraiAppEngine.toggleThemeMode(); }
+function executeEpicExitProtocol() { SamuraiAppEngine.executeExitProtocol(); }
+function openEpicHonorModal() { SamuraiAppEngine.openModal('epicHonorModal'); }
+function closeEpicHonorModal() { SamuraiAppEngine.closeModal('epicHonorModal'); }
+function openEpicAudioSettingsModal() { SamuraiAppEngine.openModal('epicAudioModal'); }
+function closeEpicAudioSettingsModal() { SamuraiAppEngine.closeModal('epicAudioModal'); }
+function submitEpicRating() { SamuraiAppEngine.submitRating(); }

@@ -1,290 +1,690 @@
-/* تنسيقات CSS احترافية وعصرية متكاملة */
+/* ==========================================================================
+   المحرك التصميمي الإمبراطوري الخارق - رواية القبعة البيضاء (سجاد ثامر)
+   ========================================================================== */
+
+:root {
+    --epic-bg-main: #05070b;
+    --epic-bg-panel: #0b0f17;
+    --epic-card-bg: rgba(14, 20, 32, 0.95);
+    --epic-text-main: #f8fafc;
+    --epic-text-muted: #94a3b8;
+    --epic-accent: #dc2626;
+    --epic-accent-glow: rgba(220, 38, 38, 0.5);
+    --epic-gold: #f59e0b;
+    --epic-gold-glow: rgba(245, 158, 11, 0.35);
+    --epic-gradient-gold: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #78350f 100%);
+    --epic-border-gold: rgba(245, 158, 11, 0.35);
+    --epic-shadow: 0 35px 70px -15px rgba(0, 0, 0, 0.95);
+    --epic-radius: 22px;
+    --epic-transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.light-mode-active {
+    --epic-bg-main: #e2e8f0;
+    --epic-bg-panel: #f8fafc;
+    --epic-card-bg: rgba(255, 255, 255, 0.97);
+    --epic-text-main: #0f172a;
+    --epic-text-muted: #475569;
+    --epic-accent: #b91c1c;
+    --epic-accent-glow: rgba(185, 28, 28, 0.25);
+    --epic-gold: #d97706;
+    --epic-gold-glow: rgba(217, 119, 6, 0.2);
+    --epic-gradient-gold: linear-gradient(135deg, #d97706 0%, #b45309 50%, #451a03 100%);
+    --epic-border-gold: rgba(217, 119, 6, 0.4);
+    --epic-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.18);
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Cairo', sans-serif;
-    transition: background 0.3s, color 0.3s;
+    font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+    transition: var(--epic-transition);
+    -webkit-tap-highlight-color: transparent;
 }
 
-:root {
-    --bg-gradient: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('sk2.png') no-repeat center center fixed;
-    --card-bg: rgba(255, 255, 255, 0.92);
-    --card-color: #2c3e50;
-    --text-color: #fff;
-    --subtext-color: #bbb;
-}
-
-body.light-mode {
-    --bg-gradient: linear-gradient(rgba(240,242,245,0.9), rgba(240,242,245,0.9)), url('sk2.png') no-repeat center center fixed;
-    --card-bg: rgba(255, 255, 255, 0.98);
-    --card-color: #2c3e50;
-    --text-color: #2c3e50;
-    --subtext-color: #555;
-}
-
-body {
-    background: var(--bg-gradient);
-    background-size: cover;
-    color: var(--text-color);
+body.epic-body-container {
+    background-color: var(--epic-bg-main);
+    color: var(--epic-text-main);
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+    position: relative;
 }
 
-.container {
-    width: 100%;
-    max-width: 450px;
-    padding: 20px;
-    text-align: center;
-}
-
-.top-bar {
+/* شاشة التحميل السينمائية التمهيدية */
+.cinematic-loader-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--epic-bg-main);
+    z-index: 99999;
     display: flex;
-    justify-content: flex-start;
-    margin-bottom: 10px;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.8s ease;
 }
 
-.icon-btn {
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    color: inherit;
-    font-size: 1.2rem;
-    padding: 8px 12px;
-    border-radius: 50%;
+.loader-inner-box {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 24px;
+    max-width: 360px;
+}
+
+.loader-sword-symbol {
+    font-size: 4.5rem;
+    animation: swordPulseAnim 1.2s infinite alternate ease-in-out;
+}
+
+@keyframes swordPulseAnim {
+    from { transform: scale(1) rotate(-10deg); filter: drop-shadow(0 0 10px var(--epic-gold-glow)); }
+    to { transform: scale(1.25) rotate(10deg); filter: drop-shadow(0 0 30px var(--epic-gold)); }
+}
+
+.loader-title-glow {
+    color: var(--epic-gold);
+    font-size: 1.8rem;
+    font-weight: 900;
+    font-family: 'Amiri', serif;
+}
+
+.loader-subtitle-text {
+    color: var(--epic-text-muted);
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.epic-progress-track {
+    width: 220px;
+    height: 5px;
+    background: var(--epic-bg-panel);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 12px;
+    border: 1px solid var(--epic-border-gold);
+}
+
+.epic-progress-indicator {
+    width: 100%;
+    height: 100%;
+    background: var(--epic-gradient-gold);
+    animation: progressFillAnim 1.4s infinite linear;
+}
+
+@keyframes progressFillAnim {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* الإطار العام للتطبيق */
+.epic-app-wrapper {
+    width: 100%;
+    max-width: 460px;
+    height: 100vh;
+    max-height: 940px;
+    background-color: var(--epic-bg-panel);
+    border-radius: var(--epic-radius);
+    box-shadow: var(--epic-shadow);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid var(--epic-border-gold);
+}
+
+/* شريط التحكم العلوي */
+.epic-header-master {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 22px;
+    background: var(--epic-card-bg);
+    backdrop-filter: blur(20px);
+    border-bottom: 2px solid var(--epic-border-gold);
+    z-index: 40;
+}
+
+.brand-identity-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
-.screen {
+.brand-crest {
+    font-size: 1.5rem;
+}
+
+.brand-text-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.brand-main-name {
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: var(--epic-gold);
+    font-family: 'Amiri', serif;
+}
+
+.brand-sub-name {
+    font-size: 0.72rem;
+    color: var(--epic-text-muted);
+    font-weight: 700;
+}
+
+.header-tools-group {
+    display: flex;
+    gap: 8px;
+}
+
+.epic-tool-btn {
+    background: var(--epic-card-bg);
+    border: 1px solid var(--epic-border-gold);
+    color: var(--epic-text-main);
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+}
+
+.epic-tool-btn:hover {
+    border-color: var(--epic-gold);
+    background: var(--epic-gold-glow);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px var(--epic-gold-glow);
+}
+
+/* مسرح العرض الأساسي */
+.epic-viewport-canvas {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    scroll-behavior: smooth;
+    position: relative;
+}
+
+.epic-viewport-canvas::-webkit-scrollbar {
+    width: 6px;
+}
+.epic-viewport-canvas::-webkit-scrollbar-track {
+    background: var(--epic-bg-main);
+}
+.epic-viewport-canvas::-webkit-scrollbar-thumb {
+    background: var(--epic-gold);
+    border-radius: 10px;
+}
+
+.epic-view-section {
     display: none;
-    animation: fadeIn 0.3s ease-in-out;
+    animation: viewSlideInAnim 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.screen.active {
+.epic-view-section.active {
     display: block;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
+@keyframes viewSlideInAnim {
+    from { opacity: 0; transform: translateY(18px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-h1 {
-    font-size: 2rem;
-    margin-bottom: 5px;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+/* الترويسة النظيفة البديلة للمربع الأحمر القديم */
+.clean-author-banner {
+    text-align: center;
+    margin-bottom: 26px;
+    padding: 10px 0;
 }
 
-.subtitle {
+.clean-epic-title {
+    font-size: 1.85rem;
+    font-weight: 900;
+    color: var(--epic-gold);
+    font-family: 'Amiri', serif;
+    margin-bottom: 4px;
+}
+
+.clean-epic-author {
     font-size: 0.95rem;
-    color: var(--subtext-color);
-    margin-bottom: 20px;
+    color: var(--epic-text-muted);
+    font-weight: 700;
 }
 
-/* شريط التقدم */
-.progress-box {
-    background: rgba(0, 0, 0, 0.4);
-    padding: 10px 15px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    border: 1px solid rgba(255,255,255,0.1);
-}
-
-.progress-info {
+/* شبكة التنقل */
+.epic-navigation-grid {
     display: flex;
-    justify-content: space-between;
-    font-size: 0.85rem;
-    margin-bottom: 5px;
-    color: #fff;
+    flex-direction: column;
+    gap: 14px;
 }
 
-.progress-bar-bg {
-    width: 100%;
-    background: rgba(255,255,255,0.2);
-    height: 8px;
-    border-radius: 4px;
-    overflow: hidden;
+.epic-nav-card {
+    background: var(--epic-card-bg);
+    border: 1px solid var(--epic-border-gold);
+    padding: 18px 20px;
+    border-radius: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-align: right;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
 }
 
-.progress-bar-fill {
-    height: 100%;
-    background: #27ae60;
-    width: 0%;
-    transition: width 0.4s ease;
+.epic-nav-card:hover {
+    border-color: var(--epic-gold);
+    background: var(--epic-gold-glow);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px var(--epic-gold-glow);
 }
 
-/* الأزرار والقوائم */
-.menu-container {
+.epic-nav-card.danger-card:hover {
+    border-color: var(--epic-accent);
+    background: var(--epic-accent-glow);
+    box-shadow: 0 12px 30px var(--epic-accent-glow);
+}
+
+.nav-card-icon {
+    font-size: 1.8rem;
+    background: var(--epic-bg-main);
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--epic-border-gold);
+    flex-shrink: 0;
+}
+
+.nav-card-content {
+    flex: 1;
+}
+
+.nav-card-content h3 {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--epic-text-main);
+    margin-bottom: 3px;
+}
+
+.nav-card-content p {
+    font-size: 0.78rem;
+    color: var(--epic-text-muted);
+    line-height: 1.4;
+}
+
+.nav-card-arrow {
+    font-size: 1.2rem;
+    color: var(--epic-gold);
+    font-weight: bold;
+}
+
+/* الترويسة الفرعية */
+.epic-section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.epic-back-btn {
+    background: var(--epic-card-bg);
+    border: 1px solid var(--epic-border-gold);
+    color: var(--epic-text-main);
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.epic-back-btn:hover {
+    border-color: var(--epic-gold);
+    background: var(--epic-gold-glow);
+}
+
+.epic-section-header h2 {
+    font-size: 1.35rem;
+    font-weight: 900;
+    color: var(--epic-gold);
+    font-family: 'Amiri', serif;
+    margin-bottom: 2px;
+}
+
+.epic-section-header p {
+    font-size: 0.78rem;
+    color: var(--epic-text-muted);
+}
+
+/* شبكة المواسم */
+.epic-seasons-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+}
+
+.epic-season-box {
+    background: var(--epic-card-bg);
+    border: 1px solid var(--epic-border-gold);
+    padding: 22px 14px;
+    border-radius: 18px;
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.04);
+}
+
+.epic-season-box.unlocked:hover {
+    border-color: var(--epic-gold);
+    background: var(--epic-gold-glow);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px var(--epic-gold-glow);
+}
+
+.epic-season-box.locked {
+    opacity: 0.45;
+    cursor: not-allowed;
+    filter: grayscale(0.85);
+    background: var(--epic-bg-main);
+}
+
+.season-num-big {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--epic-gold);
+}
+
+.season-name-txt {
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+.season-status-pill {
+    font-size: 0.72rem;
+    color: var(--epic-text-muted);
+    background: var(--epic-bg-main);
+    padding: 4px 10px;
+    border-radius: 12px;
+    align-self: center;
+    border: 1px solid var(--epic-border-gold);
+}
+
+/* قائمة الحلقات */
+.epic-episodes-list {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-.menu-btn {
-    background: var(--card-bg);
-    color: var(--card-color);
-    padding: 13px 18px;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    border: none;
+.epic-episode-row {
+    background: var(--epic-card-bg);
+    border: 1px solid var(--epic-border-gold);
+    padding: 16px 20px;
+    border-radius: 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    text-align: right;
 }
 
-.menu-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(231, 76, 60, 0.4);
+.epic-episode-row:not(.locked):hover {
+    border-color: var(--epic-gold);
+    background: var(--epic-gold-glow);
 }
 
-.menu-btn h3 {
-    font-size: 1.05rem;
-    font-weight: bold;
+.epic-episode-row.locked {
+    opacity: 0.5;
+    border-style: dashed;
 }
 
-.badge {
-    font-size: 0.75rem;
-    font-weight: bold;
-    padding: 3px 8px;
-    border-radius: 6px;
+.episode-info-grp h4 {
+    font-size: 1rem;
+    font-weight: 800;
+    margin-bottom: 2px;
 }
-.badge.green { color: #27ae60; background: rgba(39, 174, 96, 0.15); }
-.badge.blue { color: #2980b9; background: rgba(41, 128, 185, 0.15); }
-.badge.yellow { color: #f39c12; background: rgba(243, 156, 18, 0.15); }
-.badge.purple { color: #8e44ad; background: rgba(142, 68, 173, 0.15); }
-.badge.pink { color: #d81b60; background: rgba(216, 27, 96, 0.15); }
 
-/* زر الرجوع */
-.back-btn {
-    background: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    border: 1px solid rgba(255,255,255,0.3);
-    padding: 6px 14px;
-    border-radius: 8px;
+.epic-download-btn {
+    background: var(--epic-gradient-gold);
+    color: #ffffff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 0.82rem;
     cursor: pointer;
-    font-size: 0.9rem;
-    margin-bottom: 15px;
-    float: right;
-    transition: 0.2s;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 4px 15px var(--epic-gold-glow);
 }
 
-.back-btn:hover {
-    background: #e74c3c;
+.epic-download-btn:hover {
+    opacity: 0.92;
+    transform: scale(1.05);
 }
 
-/* خانة البحث */
-.search-box {
+.epic-locked-badge {
+    background: var(--epic-bg-main);
+    color: var(--epic-text-muted);
+    padding: 7px 14px;
+    border-radius: 10px;
+    font-size: 0.78rem;
+    border: 1px solid var(--epic-border-gold);
+    font-weight: 700;
+}
+
+/* الكاتب والاعدادات */
+.epic-author-card {
+    background: var(--epic-card-bg);
+    border: 1px solid var(--epic-border-gold);
+    padding: 22px;
+    border-radius: var(--epic-radius);
+    line-height: 1.8;
+}
+
+.epic-author-card h3 {
+    color: var(--epic-gold);
+    font-size: 1.2rem;
+    margin-bottom: 6px;
+    font-weight: 900;
+    font-family: 'Amiri', serif;
+}
+
+.epic-author-card p {
+    font-size: 0.88rem;
+    color: var(--epic-text-muted);
+}
+
+.author-quote-box {
+    margin-top: 16px;
+    background: var(--epic-bg-main);
+    border: 1px dashed var(--epic-gold);
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 800;
+    color: var(--epic-gold);
+    font-size: 0.85rem;
+}
+
+/* النوافذ المنبثقة (Modals) */
+.epic-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.84);
+    backdrop-filter: blur(10px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.epic-modal-card {
+    background: var(--epic-bg-panel);
+    border: 2px solid var(--epic-gold);
+    padding: 30px 24px;
+    border-radius: var(--epic-radius);
     width: 100%;
-    padding: 10px 15px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    margin-bottom: 12px;
-    font-size: 0.95rem;
-    outline: none;
-    background: rgba(255,255,255,0.9);
-    color: #333;
+    max-width: 390px;
+    box-shadow: var(--epic-shadow);
+    text-align: center;
 }
 
-/* القوائم والصفوف */
-.list-container {
+.epic-modal-card h3 {
+    font-size: 1.35rem;
+    margin-bottom: 8px;
+    font-weight: 900;
+    color: var(--epic-gold);
+    font-family: 'Amiri', serif;
+}
+
+.epic-modal-card p {
+    font-size: 0.85rem;
+    color: var(--epic-text-muted);
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.epic-form-group {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    max-height: 380px;
-    overflow-y: auto;
-    padding-left: 4px;
-    clear: both;
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
-.list-row {
-    background: var(--card-bg);
-    color: var(--card-color);
-    padding: 10px 16px;
-    border-radius: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-    width: 100%;
-}
-
-.list-row h3 {
-    font-size: 1rem;
-    color: var(--card-color);
-    margin: 0;
-    text-align: right;
-}
-
-.action-btn {
-    background: #27ae60;
-    color: #fff;
-    padding: 6px 14px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.action-btn:hover {
-    background: #219653;
-}
-
-.coming-btn {
-    background: #bdc3c7;
-    color: #555;
-    cursor: not-allowed;
-}
-
-/* مربعات الإعدادات وعن القصة */
-.settings-box, .about-box {
-    background: var(--card-bg);
-    color: var(--card-color);
-    padding: 18px;
+.epic-input-field {
+    background: var(--epic-bg-main);
+    border: 1px solid var(--epic-border-gold);
+    color: var(--epic-text-main);
+    padding: 14px 16px;
     border-radius: 12px;
-    text-align: right;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    clear: both;
+    font-size: 0.95rem;
+    text-align: center;
+    outline: none;
 }
 
-.setting-row {
+.epic-input-field:focus {
+    border-color: var(--epic-gold);
+    box-shadow: 0 0 0 3px var(--epic-gold-glow);
+}
+
+.epic-modal-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.epic-btn-gold {
+    flex: 1;
+    background: var(--epic-gradient-gold);
+    color: #ffffff;
+    border: 1px solid var(--epic-gold);
+    padding: 13px;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 15px var(--epic-gold-glow);
+}
+
+.epic-btn-dim {
+    flex: 1;
+    background: var(--epic-card-bg);
+    color: var(--epic-text-main);
+    border: 1px solid var(--epic-border-gold);
+    padding: 13px;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.epic-rating-stats-result {
+    margin-top: 15px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--epic-gold);
+}
+/* =========================================
+   إضافات شريط التقدم، شارة المشاهدة، والإنستغرام
+   ========================================= */
+
+/* شريط نسبة الإكمال */
+.completion-progress-container {
+    background: var(--epic-card-bg);
+    padding: 14px 18px;
+    border-radius: 14px;
+    border: 1px solid var(--epic-border-gold);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.progress-text {
+    font-size: 0.9rem;
+    color: var(--epic-gold);
+    font-weight: 800;
+    margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    font-size: 0.95rem;
-    font-weight: bold;
 }
 
-.font-controls button, .danger-btn {
-    padding: 5px 10px;
+.progress-bar-bg {
+    width: 100%;
+    height: 8px;
+    background: var(--epic-bg-main);
     border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 0.85rem;
+    overflow: hidden;
+    border: 1px solid rgba(245, 158, 11, 0.2);
 }
 
-.font-controls button {
-    background: #3498db;
-    color: #fff;
-    margin-left: 5px;
+.progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--epic-gradient-gold);
+    transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.danger-btn {
-    background: #e74c3c;
-    color: #fff;
+/* شارة "تمت المشاهدة" */
+.watched-badge {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    margin-right: 10px;
+    display: inline-flex;
+    align-items: center;
 }
 
-/* أحجام الخطوط المتغيرة */
-.font-small { font-size: 0.85rem !important; }
-.font-medium { font-size: 1rem !important; }
-.font-large { font-size: 1.2rem !important; }
+/* زر الإنستغرام */
+.epic-btn-instagram {
+    display: block;
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    color: #ffffff;
+    text-align: center;
+    text-decoration: none;
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: 900;
+    margin-top: 20px;
+    font-family: 'Cairo', sans-serif;
+    box-shadow: 0 5px 15px rgba(220, 39, 67, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.epic-btn-instagram:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(220, 39, 67, 0.5);
+    color: #ffffff;
+}

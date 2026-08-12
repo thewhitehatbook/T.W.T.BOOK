@@ -1,92 +1,190 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" class="samurai-epic-root">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>رواية القبعة البيضاء | سجاد ثامر</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 </head>
-<body class="dark-mode" id="body-theme">
+<body id="epicMasterBody" class="epic-body-container">
 
-    <div class="container">
+    <div id="epicCinematicLoader" class="cinematic-loader-overlay">
+        <div class="loader-inner-box">
+            <div class="loader-sword-symbol">⚔️</div>
+            <h1 class="loader-title-glow">رواية القبعة البيضاء</h1>
+            <p class="loader-subtitle-text">سجاد ثامر</p>
+            <div class="epic-progress-track">
+                <div class="epic-progress-indicator"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="epic-app-wrapper" id="epicAppWrapper">
         
-        <!-- زر التبديل السريع للوضع الداكن/الفاتح بالاعلى -->
-        <div class="top-bar">
-            <button class="icon-btn" onclick="toggleTheme()" title="تغيير الثيم">🌓</button>
-        </div>
-
-        <!-- 1. واجهة البداية الرئيسية -->
-        <div id="home-screen" class="screen active">
-            <h1>القبعة البيضاء</h1>
-            <p class="subtitle">تأليف الكاتب: سجاد ثامر</p>
-            
-            <!-- شريط تقدم القراءة العام -->
-            <div class="progress-box">
-                <div class="progress-info">
-                    <span>نسبة  قراءة الحلقات</span>
-                    <span id="progress-text">0%</span>
-                </div>
-                <div class="progress-bar-bg">
-                    <div class="progress-bar-fill" id="progress-fill" style="width: 0%;"></div>
+        <header class="epic-header-master">
+            <div class="brand-identity-box" onclick="playEpicKatanaSound(); switchEpicView('view-home');">
+                <span class="brand-crest">⛩️</span>
+                <div class="brand-text-group">
+                    <span class="brand-main-name">القبعة البيضاء</span>
+                    <span class="brand-sub-name">سجاد ثامر</span>
                 </div>
             </div>
-
-            <div class="menu-container">
-                <button class="menu-btn" onclick="goToSeasons()">
-                    <h3>📖 ابدأ القراءة</h3>
-                    <span class="badge green">متاح</span>
+            <div class="header-tools-group">
+                <button class="epic-tool-btn" onclick="playEpicKatanaSound(); toggleEpicThemeMode();" title="تبديل السمات">
+                    <span id="themeToggleIcon">🌒</span>
                 </button>
-
-                <button class="menu-btn" onclick="showAbout()">
-                    <h3>✨ عن الرواية</h3>
-                    <span class="badge blue">نبذة</span>
+                <button class="epic-tool-btn" onclick="playEpicKatanaSound(); openEpicHonorModal();" title="سجل الخالدين والتقييم">
+                    <span>📜</span>
                 </button>
+                <button class="epic-tool-btn" onclick="playEpicKatanaSound(); openEpicAudioSettingsModal();" title="الصوتيات">
+                    <span>🎵</span>
+                </button>
+            </div>
+        </header>
 
+        <main class="epic-viewport-canvas" id="epicViewportCanvas">
+
+            <section id="view-home" class="epic-view-section active">
+                <div class="clean-author-banner">
+                    <h1 class="clean-epic-title">رواية القبعة البيضاء</h1>
+                    <p class="clean-epic-author">الكاتب: سجاد ثامر</p>
+                </div>
+
+                <div class="epic-navigation-grid">
+                    <button class="epic-nav-card" onclick="playEpicKatanaSound(); switchEpicView('view-seasons');">
+                        <div class="nav-card-icon">📜</div>
+                        <div class="nav-card-content">
+                            <h3>المواسم</h3>
+                            <p>تصفح المواسم الستة الملحمية والمخطوطات التابعة لها</p>
+                        </div>
+                        <div class="nav-card-arrow">←</div>
+                    </button>
+
+                    <button class="epic-nav-card" onclick="playEpicKatanaSound(); switchEpicView('view-author');">
+                        <div class="nav-card-icon">✍️</div>
+                        <div class="nav-card-content">
+                            <h3>حساب الكاتب</h3>
+                            <p>تعرف على رؤية الكاتب وتواصل معه عبر إنستغرام</p>
+                        </div>
+                        <div class="nav-card-arrow">←</div>
+                    </button>
+
+                    <button class="epic-nav-card" onclick="playEpicKatanaSound(); switchEpicView('view-settings');">
+                        <div class="nav-card-icon">⚙️</div>
+                        <div class="nav-card-content">
+                            <h3>الاعدادات</h3>
+                            <p>تخصيص التفضيلات، السمات البصرية، والأدوات</p>
+                        </div>
+                        <div class="nav-card-arrow">←</div>
+                    </button>
+
+                    <button class="epic-nav-card danger-card" onclick="playEpicKatanaSound(); executeEpicExitProtocol();">
+                        <div class="nav-card-icon">🚪</div>
+                        <div class="nav-card-content">
+                            <h3>الخروج</h3>
+                            <p>الخروج الآمن من النظام وإغلاق بوابات الملحمة</p>
+                        </div>
+                        <div class="nav-card-arrow">←</div>
+                    </button>
+                </div>
+            </section>
+
+            <section id="view-seasons" class="epic-view-section">
+                <div class="epic-section-header">
+                    <button class="epic-back-btn" onclick="playEpicKatanaSound(); switchEpicView('view-home');">←</button>
+                    <div>
+                        <h2>المواسم الستة الملحمية</h2>
+                        <p>الموسم الأول مفتوح بالكامل، وباقي المواسم مقفلة بإحكام</p>
+                    </div>
+                </div>
+                <div class="epic-seasons-grid" id="epicSeasonsGridContainer"></div>
+            </section>
+
+            <section id="view-episodes" class="epic-view-section">
+                <div class="epic-section-header" style="margin-bottom: 10px;">
+                    <button class="epic-back-btn" onclick="playEpicKatanaSound(); switchEpicView('view-seasons');">←</button>
+                    <div style="width: 100%;">
+                        <h2 id="epicActiveSeasonTitle">مخطوطات الحلقات</h2>
+                        <p>الحلقات المتاحة حالياً للمشاهدة والتحميل</p>
+                    </div>
+                </div>
                 
+                <div class="completion-progress-container">
+                    <div class="progress-text">نسبة الإكمال للموسم: <span id="seasonCompletionText">0%</span></div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="seasonCompletionBar"></div>
+                    </div>
+                </div>
 
-                <button class="menu-btn" onclick="window.open('https://www.instagram.com/sd.kg.x1?igsh=c3draXc1YzA5YjY2')">
-                    <h3>💬 حساب الكاتب</h3>
-                    <span class="badge pink">تواصل</span>
-                </button>
+                <div class="epic-episodes-list" id="epicEpisodesListContainer" style="margin-top: 20px;"></div>
+            </section>
 
-                <button class="menu-btn" onclick="exitApp()">
-                    <h3>🚪 خروج من التطبيق</h3>
-                    <span class="badge red">إغلاق</span>
-                </button>
+            <section id="view-author" class="epic-view-section">
+                <div class="epic-section-header">
+                    <button class="epic-back-btn" onclick="playEpicKatanaSound(); switchEpicView('view-home');">←</button>
+                    <div>
+                        <h2>حساب الكاتب العبقري</h2>
+                        <p>كلمات من عقل وقلب المبدع سجاد ثامر</p>
+                    </div>
+                </div>
+                <div class="epic-author-card">
+                    <h3>سجاد ثامر</h3>
+                    <p>أكتب لأن الكلمات أطول عمراً مما نترك خلفنا من حطام. هذه الرواية صُممت لتكون ملحمة متكاملة الأركان، تأخذ القارئ من يديه وتزرعه في قلب المعركة.</p>
+                    <div class="author-quote-box">
+                        "لا تسأل عن نهاية الحرب، بل اسأل عمن يخرج منها حاملاً شرفه نقياً كالثلج" ⚔️
+                    </div>
+                    
+                    <a href="https://www.instagram.com/sd.kg.x1?igsh=c3draXc1YzA5YjY2" target="_blank" class="epic-btn-instagram" onclick="playEpicKatanaSound();">
+                        📸 متابعة الكاتب على إنستغرام
+                    </a>
+                </div>
+            </section>
+
+            <section id="view-settings" class="epic-view-section">
+                <div class="epic-section-header">
+                    <button class="epic-back-btn" onclick="playEpicKatanaSound(); switchEpicView('view-home');">←</button>
+                    <div>
+                        <h2>لوحة الإعدادات</h2>
+                        <p>تخصيص الخصائص والتحكم الكامل بالنظام</p>
+                    </div>
+                </div>
+                <div class="epic-author-card" style="display: flex; flex-direction: column; gap: 12px;">
+                    <button class="epic-btn-gold" style="width:100%;" onclick="playEpicKatanaSound(); toggleEpicThemeMode();">تبديل السمة (ليلي / نهاري)</button>
+                    <button class="epic-btn-gold" style="width:100%;" onclick="playEpicKatanaSound(); openEpicHonorModal();">⭐ فتح سجل الخالدين والتقييم</button>
+                    <button class="epic-btn-dim" style="width:100%;" onclick="playEpicKatanaSound(); openEpicAudioSettingsModal();">🎵 إعدادات الصوتيات</button>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- نافذة سجل الخالدين والتقييم (Modal) -->
+    <div id="epicHonorModal" class="epic-modal-overlay">
+        <div class="epic-modal-card">
+            <h3>⭐ سجل شرف الخالدين</h3>
+            <p>سجل اسمك في لوحة محاربي الملحمة الأبديين وقيم العمل برتبة شرف</p>
+            <div class="epic-form-group">
+                <input type="text" id="epicRaterName" class="epic-input-field" placeholder="اسم المحارب أو لقبك الكريم">
+                <input type="number" id="epicRaterScore" class="epic-input-field" min="0" max="5" step="0.5" placeholder="التقييم (من 0 إلى 5)">
+            </div>
+            <div class="epic-modal-actions">
+                <button class="epic-btn-gold" onclick="playEpicKatanaSound(); submitEpicRating();">ختم وتوثيق التقييم</button>
+                <button class="epic-btn-dim" onclick="playEpicKatanaSound(); closeEpicHonorModal();">إغلاق السجل</button>
+            </div>
+            <div id="epicRatingStatsDisplay" class="epic-rating-stats-result"></div>
+        </div>
+    </div>
+
+    <!-- نافذة إعدادات الأصوات والأجواء -->
+    <div id="epicAudioModal" class="epic-modal-overlay">
+        <div class="epic-modal-card">
+            <h3>🎵 أجواء الساموراي الصوتية</h3>
+            <p>النظام الصوتي يعمل بتكنولوجيا الـ Web Audio API الحية لتوليد رنين النصل الحقيقي فور كل نقرة.</p>
+            <div class="epic-modal-actions">
+                <button class="epic-btn-gold" onclick="playEpicKatanaSound(); closeEpicAudioSettingsModal();">حفظ والعودة</button>
             </div>
         </div>
-
-        <!-- 2. شاشة المواسم -->
-        <div id="seasons-screen" class="screen">
-            <button class="back-btn" onclick="goHome()">← الرئيسية</button>
-            <h1 class="screen-title">المواسم</h1>
-            <p class="subtitle">اختر الموسم للانتقال للحلقات</p>
-            <div class="list-container" id="seasons-container"></div>
-        </div>
-
-        <!-- 3. شاشة الحلقات -->
-        <div id="episodes-screen" class="screen">
-            <button class="back-btn" onclick="goBackToSeasons()">← المواسم</button>
-            <h1 id="season-title" class="screen-title"></h1>
-            
-            <!-- خانة البحث داخل الحلقات -->
-            <input type="text" id="search-input" class="search-box" placeholder="ابحث عن رقم الحلقة..." onkeyup="filterEpisodes()">
-            
-            <div class="list-container" id="episodes-container"></div>
-        </div>
-
-        <!-- 4. شاشة عن القصة -->
-        <div id="about-screen" class="screen">
-            <button class="back-btn" onclick="goHome()">← الرئيسية</button>
-            <h1 class="screen-title">عن القصة</h1>
-            <p class="subtitle">تفاصيل العمل الإبداعي</p>
-            <div class="about-box">
-                <p><strong>رواية القبعة البيضاء</strong> قصة عن طفل يحلم أن يكون ساموراي ذهبي لانقاذ شعبه من الكاتب <strong>سجاد ثامر</strong>.</p>
-                <br>
-                <p>تأخذك الرواية في رحلة عميقة مليئة بالأحداث الغامضة والمواقف المعقدة، ساموراي مع قدرات خيالية .</p>
-            </div>
-        </div>
-
     </div>
 
     <script src="script.js"></script>
