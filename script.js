@@ -64,7 +64,7 @@ function openEpisodes(seasonNum, seasonName) {
         let fileName = `s${seasonNum}_ep${i}.docx`;
         
         // بالموسم الأول: نخلي الحلقة الأولى فقط متاحة للتحميل، وباقي الحلقات (من 2 إلى 24) قريباً
-        if (seasonNum === 1 && i === 1) {
+        if (seasonNum === 1 && (i === 1|| i === 2)) {
             row.innerHTML = `
                 <h3>الحلقة ${i}</h3>
                 <a href="${fileName}" download class="download-btn" onclick="checkWordApp(event, '${fileName}')">تحميل الحلقة</a>
