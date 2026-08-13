@@ -90,7 +90,7 @@ const SamuraiAppEngine = {
         }
     },
 
-    seasonNames: ["", "الأول (نصل الظل)", "الثاني (عهد الدم)", "الثالث", "الرابع", "الخامس", "السادس"],
+    seasonNames: ["", "الأول ( أبطال يوتا)", "الثاني (عهد الدم)", "الثالث", "الرابع", "الخامس", "السادس"],
 
     buildSamuraiSeasonsArchitecture() {
         const seasonsGridBox = document.getElementById('epicSeasonsGridContainer');

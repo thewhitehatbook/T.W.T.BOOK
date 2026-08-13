@@ -424,6 +424,33 @@ body.epic-body-container {
     border: 1px solid var(--epic-border-gold);
 }
 
+/* ==========================================================================
+   تعديل صورة الموسم الأول (تغطي الصندوق بوضوح مع تدرج داكن لتبرز الكتابة فوقها)
+   ========================================================================== */
+#epicSeasonsListContainer .epic-season-box:nth-child(1),
+.epic-seasons-grid .epic-season-box:nth-child(1) {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)), url('season1_cover.png') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    border-color: var(--epic-gold) !important;
+    box-shadow: 0 10px 30px rgba(245, 158, 11, 0.25) !important;
+}
+
+/* لضمان وضوح نصوص أرقام وحالة الموسم الأول فوق الصورة */
+#epicSeasonsListContainer .epic-season-box:nth-child(1) .season-num-big,
+#epicSeasonsListContainer .epic-season-box:nth-child(1) .season-name-txt {
+    color: #ffffff !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+#epicSeasonsListContainer .epic-season-box:nth-child(1) .season-status-pill {
+    background: rgba(245, 158, 11, 0.9) !important;
+    color: #05070b !important;
+    font-weight: 900;
+    border: none;
+}
+
 /* قائمة الحلقات */
 .epic-episodes-list {
     display: flex;
@@ -615,11 +642,11 @@ body.epic-body-container {
     font-weight: 800;
     color: var(--epic-gold);
 }
+
 /* =========================================
    إضافات شريط التقدم، شارة المشاهدة، والإنستغرام
    ========================================= */
 
-/* شريط نسبة الإكمال */
 .completion-progress-container {
     background: var(--epic-card-bg);
     padding: 14px 18px;
@@ -653,7 +680,6 @@ body.epic-body-container {
     transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* شارة "تمت المشاهدة" */
 .watched-badge {
     background: rgba(16, 185, 129, 0.15);
     color: #10b981;
@@ -667,7 +693,6 @@ body.epic-body-container {
     align-items: center;
 }
 
-/* زر الإنستغرام */
 .epic-btn-instagram {
     display: block;
     background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
