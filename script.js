@@ -10,7 +10,17 @@ const SamuraiAppEngine = {
     activeSeason: 1,
     totalSeasons: 6,
     episodesPerSeason: 9,
-    unlockedEpisodesDownloadLimit: 2,
+    unlockedEpisodesDownloadLimit: 3, // تم فتح الحلقة 1 و 2 و 3
+    
+    // إعدادات الصوت والمسارات
+    audioConfig: {
+        bgMusicPath: 'samuri.mp3', // مسار أغنية الخلفية
+        clickSoundPath: 'katana-schwing.mp3',  // مسار صوت الضغطة (السيف)
+        bgVolume: 0.4,   // مستوى صوت الخلفية (من 0.0 إلى 1.0)
+        clickVolume: 0.6  // مستوى صوت الضغطة (من 0.0 إلى 1.0)
+    },
+    bgAudioInstance: null,
+
     storageKeys: {
         ratings: 'epic_samurai_ratings',
         theme: 'epic_samurai_theme',
@@ -21,6 +31,43 @@ const SamuraiAppEngine = {
         this.restoreUserThemePreferences();
         this.preloadCinematicLoader();
         this.buildSamuraiSeasonsArchitecture();
+        this.setupBackgroundMusic();
+    },
+
+    setupBackgroundMusic() {
+        this.bgAudioInstance = new Audio(this.audioConfig.bgMusicPath);
+        this.bgAudioInstance.loop = true;
+        this.bgAudioInstance.volume = this.audioConfig.bgVolume;
+
+        // دالة التشغيل
+        const startMusic = () => {
+            this.bgAudioInstance.play().then(() => {
+                // إذا نجح التشغيل، نمسح المستمعين عشان ما تتكرر العملية
+                document.removeEventListener('click', startMusic);
+                document.removeEventListener('touchstart', startMusic);
+                document.removeEventListener('keydown', startMusic);
+            }).catch(err => {
+                console.log("بانتظار تفاعل المستخدم للبدء...");
+            });
+        };
+
+        // محاولة التشغيل الفوري (قد يمنعها المتصفح)
+        startMusic();
+
+        // الحل الجذري: بمجرد أن يضغط المستخدم في أي مكان، ستعمل الموسيقى فوراً
+        document.addEventListener('click', startMusic);
+        document.addEventListener('touchstart', startMusic); // للهواتف
+        document.addEventListener('keydown', startMusic);    // للكمبيوتر
+    },
+
+    // --- نظام صوت الضغطة (مؤثر السيف) ---
+    playKatanaSlashSound() {
+        try {
+            const clickAudio = new Audio(this.audioConfig.clickSoundPath);
+            clickAudio.volume = this.audioConfig.clickVolume;
+            clickAudio.currentTime = 0; // إعادة الصوت للبداية فوراً عند كل ضغطة
+            clickAudio.play().catch(err => {});
+        } catch (err) {}
     },
 
     preloadCinematicLoader() {
@@ -43,6 +90,7 @@ const SamuraiAppEngine = {
     },
 
     toggleThemeMode() {
+        this.playKatanaSlashSound();
         const bodyEl = document.body;
         bodyEl.classList.toggle('light-mode-active');
         const isLight = bodyEl.classList.contains('light-mode-active');
@@ -52,31 +100,10 @@ const SamuraiAppEngine = {
     },
 
     executeExitProtocol() {
+        this.playKatanaSlashSound();
         if (confirm("هل أنت متأكد من رغبتك في إغلاق بوابات الملحمة والخروج؟")) {
             window.close();
         }
-    },
-
-    playKatanaSlashSound() {
-        try {
-            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-            if (!AudioContextClass) return;
-            const audioCtx = new AudioContextClass();
-            const oscillatorNode = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
-
-            oscillatorNode.type = 'triangle';
-            oscillatorNode.frequency.setValueAtTime(520, audioCtx.currentTime);
-            oscillatorNode.frequency.exponentialRampToValueAtTime(65, audioCtx.currentTime + 0.2);
-            
-            gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
-
-            oscillatorNode.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-            oscillatorNode.start();
-            oscillatorNode.stop(audioCtx.currentTime + 0.2);
-        } catch (err) {}
     },
 
     switchView(targetViewId) {
@@ -187,7 +214,7 @@ const SamuraiAppEngine = {
                     <div class="episode-info-grp">
                         <h4>الحلقة رقم ${ep}</h4>
                     </div>
-                    <div class="epic-locked-badge">🔒 مقفل</div>
+                    <div class="epic-locked-badge">🔒 قريبًا</div>
                 `;
             }
             episodesContainer.appendChild(rowEl);
@@ -210,7 +237,6 @@ const SamuraiAppEngine = {
         } catch (err) {}
     },
 
-    // دوال النوافذ المنبثقة والتقييم
     openModal(modalId) {
         this.playKatanaSlashSound();
         const modal = document.getElementById(modalId);
@@ -231,6 +257,7 @@ const SamuraiAppEngine = {
     },
 
     submitRating() {
+        this.playKatanaSlashSound();
         const nameInput = document.getElementById('epicRaterName');
         const scoreInput = document.getElementById('epicRaterScore');
 
@@ -281,9 +308,9 @@ window.addEventListener('DOMContentLoaded', () => SamuraiAppEngine.init());
 
 // الدوال العامة المربوطة بالأزرار
 function playEpicKatanaSound() { SamuraiAppEngine.playKatanaSlashSound(); }
-function switchEpicView(viewId) { SamuraiAppEngine.switchView(viewId); }
+function switchEpicView(viewId) { SamuraiAppEngine.playKatanaSlashSound(); SamuraiAppEngine.switchView(viewId); }
 function toggleEpicThemeMode() { SamuraiAppEngine.toggleThemeMode(); }
-function executeEpicExitProtocol() { SamuraiAppEngine.executeExitProtocol(); }
+function executeEpicExitProtocol() { SamuraiAppEngine.executeEpicExitProtocol(); }
 function openEpicHonorModal() { SamuraiAppEngine.openModal('epicHonorModal'); }
 function closeEpicHonorModal() { SamuraiAppEngine.closeModal('epicHonorModal'); }
 function openEpicAudioSettingsModal() { SamuraiAppEngine.openModal('epicAudioModal'); }
