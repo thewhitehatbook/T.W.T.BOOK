@@ -99,13 +99,6 @@ const SamuraiAppEngine = {
         if (iconEl) iconEl.innerText = isLight ? '☀️' : '🌒';
     },
 
-    executeExitProtocol() {
-        this.playKatanaSlashSound();
-        if (confirm("هل أنت متأكد من رغبتك في إغلاق بوابات الملحمة والخروج؟")) {
-            window.close();
-        }
-    },
-
     switchView(targetViewId) {
         const allSections = document.querySelectorAll('.epic-view-section');
         allSections.forEach(sec => sec.classList.remove('active'));
@@ -141,12 +134,12 @@ const SamuraiAppEngine = {
                 seasonBox.className = 'epic-season-box locked';
                 seasonBox.onclick = () => {
                     this.playKatanaSlashSound();
-                    alert(`🔒 هذا الموسم مقفل بعهد الشرف.`);
+                    alert(`🔒 هذا الموسم قريبًا  .`);
                 };
                 seasonBox.innerHTML = `
                     <div class="season-num-big">🔒</div>
                     <div class="season-name-txt">الموسم ${this.seasonNames[i].split(' ')[0]}</div>
-                    <div class="season-status-pill">مغلق بإحكام</div>
+                    <div class="season-status-pill">قريبًا </div>
                 `;
             }
             seasonsGridBox.appendChild(seasonBox);

@@ -53,6 +53,15 @@ body.epic-body-container {
     overflow: hidden;
     position: relative;
 }
+.epic-btn-whatsapp {
+    background-color: #25D366 !important;
+    transition: transform 0.2s, background 0.3s;
+}
+
+.epic-btn-whatsapp:hover {
+    background-color: #128C7E !important;
+    transform: scale(1.02);
+}
 
 /* شاشة التحميل السينمائية التمهيدية */
 .cinematic-loader-overlay {
