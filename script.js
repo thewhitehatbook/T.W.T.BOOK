@@ -10,7 +10,7 @@ const SamuraiAppEngine = {
     activeSeason: 1,
     totalSeasons: 6,
     episodesPerSeason: 9,
-    unlockedEpisodesDownloadLimit: 3, // تم فتح الحلقة 1 و 2 و 3
+    unlockedEpisodesDownloadLimit: 4, // تم فتح الحلقة 1 و 2 و 3
     
     // إعدادات الصوت والمسارات
     audioConfig: {
