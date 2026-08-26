@@ -1,7 +1,3 @@
-/* ==========================================================================
-   المحرك التصميمي الإمبراطوري الخارق - رواية القبعة البيضاء (سجاد ثامر)
-   ========================================================================== */
-
 :root {
     --epic-bg-main: #05070b;
     --epic-bg-panel: #0b0f17;
@@ -12,12 +8,21 @@
     --epic-accent-glow: rgba(220, 38, 38, 0.5);
     --epic-gold: #f59e0b;
     --epic-gold-glow: rgba(245, 158, 11, 0.35);
-    --epic-gradient-gold: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #78350f 100%);
+    --epic-gradient-gold: linear-gradient(
+        135deg,
+        #f59e0b 0%,
+        #d97706 50%,
+        #78350f 100%
+    );
     --epic-border-gold: rgba(245, 158, 11, 0.35);
     --epic-shadow: 0 35px 70px -15px rgba(0, 0, 0, 0.95);
     --epic-radius: 22px;
     --epic-transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+/* =========================
+   الوضع النهاري
+   ========================= */
 
 body.light-mode-active {
     --epic-bg-main: #e2e8f0;
@@ -29,19 +34,37 @@ body.light-mode-active {
     --epic-accent-glow: rgba(185, 28, 28, 0.25);
     --epic-gold: #d97706;
     --epic-gold-glow: rgba(217, 119, 6, 0.2);
-    --epic-gradient-gold: linear-gradient(135deg, #d97706 0%, #b45309 50%, #451a03 100%);
+    --epic-gradient-gold: linear-gradient(
+        135deg,
+        #d97706 0%,
+        #b45309 50%,
+        #451a03 100%
+    );
     --epic-border-gold: rgba(217, 119, 6, 0.4);
     --epic-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.18);
 }
+
+/* =========================
+   Reset
+   ========================= */
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
-    transition: var(--epic-transition);
     -webkit-tap-highlight-color: transparent;
 }
+
+button,
+a,
+input {
+    transition: var(--epic-transition);
+}
+
+/* =========================
+   الجسم
+   ========================= */
 
 body.epic-body-container {
     background-color: var(--epic-bg-main);
@@ -53,6 +76,11 @@ body.epic-body-container {
     overflow: hidden;
     position: relative;
 }
+
+/* =========================
+   زر واتساب
+   ========================= */
+
 .epic-btn-whatsapp {
     background-color: #25D366 !important;
     transition: transform 0.2s, background 0.3s;
@@ -63,7 +91,10 @@ body.epic-body-container {
     transform: scale(1.02);
 }
 
-/* شاشة التحميل السينمائية التمهيدية */
+/* =========================
+   شاشة التحميل
+   ========================= */
+
 .cinematic-loader-overlay {
     position: fixed;
     inset: 0;
@@ -91,8 +122,19 @@ body.epic-body-container {
 }
 
 @keyframes swordPulseAnim {
-    from { transform: scale(1) rotate(-10deg); filter: drop-shadow(0 0 10px var(--epic-gold-glow)); }
-    to { transform: scale(1.25) rotate(10deg); filter: drop-shadow(0 0 30px var(--epic-gold)); }
+    from {
+        transform: scale(1) rotate(-10deg);
+        filter: drop-shadow(
+            0 0 10px var(--epic-gold-glow)
+        );
+    }
+
+    to {
+        transform: scale(1.25) rotate(10deg);
+        filter: drop-shadow(
+            0 0 30px var(--epic-gold)
+        );
+    }
 }
 
 .loader-title-glow {
@@ -126,11 +168,19 @@ body.epic-body-container {
 }
 
 @keyframes progressFillAnim {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
 }
 
-/* الإطار العام للتطبيق */
+/* =========================
+   الإطار الرئيسي
+   ========================= */
+
 .epic-app-wrapper {
     width: 100%;
     max-width: 460px;
@@ -146,7 +196,10 @@ body.epic-body-container {
     border: 2px solid var(--epic-border-gold);
 }
 
-/* شريط التحكم العلوي */
+/* =========================
+   الهيدر
+   ========================= */
+
 .epic-header-master {
     display: flex;
     justify-content: space-between;
@@ -187,9 +240,14 @@ body.epic-body-container {
     font-weight: 700;
 }
 
+/* =========================
+   أزرار أعلى التطبيق
+   ========================= */
+
 .header-tools-group {
     display: flex;
     gap: 8px;
+    align-items: center;
 }
 
 .epic-tool-btn {
@@ -213,7 +271,10 @@ body.epic-body-container {
     box-shadow: 0 6px 15px var(--epic-gold-glow);
 }
 
-/* مسرح العرض الأساسي */
+/* =========================
+   منطقة العرض
+   ========================= */
+
 .epic-viewport-canvas {
     flex: 1;
     overflow-y: auto;
@@ -225,9 +286,11 @@ body.epic-body-container {
 .epic-viewport-canvas::-webkit-scrollbar {
     width: 6px;
 }
+
 .epic-viewport-canvas::-webkit-scrollbar-track {
     background: var(--epic-bg-main);
 }
+
 .epic-viewport-canvas::-webkit-scrollbar-thumb {
     background: var(--epic-gold);
     border-radius: 10px;
@@ -235,7 +298,12 @@ body.epic-body-container {
 
 .epic-view-section {
     display: none;
-    animation: viewSlideInAnim 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: viewSlideInAnim 0.4s cubic-bezier(
+        0.16,
+        1,
+        0.3,
+        1
+    ) forwards;
 }
 
 .epic-view-section.active {
@@ -243,11 +311,21 @@ body.epic-body-container {
 }
 
 @keyframes viewSlideInAnim {
-    from { opacity: 0; transform: translateY(18px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-/* الترويسة النظيفة البديلة للمربع الأحمر القديم */
+/* =========================
+   عنوان الكاتب
+   ========================= */
+
 .clean-author-banner {
     text-align: center;
     margin-bottom: 26px;
@@ -268,7 +346,10 @@ body.epic-body-container {
     font-weight: 700;
 }
 
-/* شبكة التنقل */
+/* =========================
+   شبكة التنقل الرئيسية
+   ========================= */
+
 .epic-navigation-grid {
     display: flex;
     flex-direction: column;
@@ -285,7 +366,9 @@ body.epic-body-container {
     align-items: center;
     gap: 16px;
     text-align: right;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    color: var(--epic-text-main);
+    width: 100%;
 }
 
 .epic-nav-card:hover {
@@ -293,12 +376,6 @@ body.epic-body-container {
     background: var(--epic-gold-glow);
     transform: translateY(-3px);
     box-shadow: 0 12px 30px var(--epic-gold-glow);
-}
-
-.epic-nav-card.danger-card:hover {
-    border-color: var(--epic-accent);
-    background: var(--epic-accent-glow);
-    box-shadow: 0 12px 30px var(--epic-accent-glow);
 }
 
 .nav-card-icon {
@@ -337,7 +414,10 @@ body.epic-body-container {
     font-weight: bold;
 }
 
-/* الترويسة الفرعية */
+/* =========================
+   الترويسات الداخلية
+   ========================= */
+
 .epic-section-header {
     display: flex;
     align-items: center;
@@ -378,7 +458,10 @@ body.epic-body-container {
     color: var(--epic-text-muted);
 }
 
-/* شبكة المواسم */
+/* =========================
+   المواسم
+   ========================= */
+
 .epic-seasons-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -395,7 +478,7 @@ body.epic-body-container {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.04);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.04);
 }
 
 .epic-season-box.unlocked:hover {
@@ -433,34 +516,51 @@ body.epic-body-container {
     border: 1px solid var(--epic-border-gold);
 }
 
-/* ==========================================================================
-   تعديل صورة الموسم الأول (تغطي الصندوق بوضوح مع تدرج داكن لتبرز الكتابة فوقها)
-   ========================================================================== */
+/* =========================
+   صورة الموسم الأول
+   ========================= */
+
 #epicSeasonsListContainer .epic-season-box:nth-child(1),
 .epic-seasons-grid .epic-season-box:nth-child(1) {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)), url('season1_cover.png') !important;
-    background-size: cover !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
-    border-color: var(--epic-gold) !important;
-    box-shadow: 0 10px 30px rgba(245, 158, 11, 0.25) !important;
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.55),
+            rgba(0, 0, 0, 0.75)
+        ),
+        url('season1_cover.png');
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    border-color: var(--epic-gold);
+    box-shadow:
+        0 10px 30px rgba(245, 158, 11, 0.25);
 }
 
-/* لضمان وضوح نصوص أرقام وحالة الموسم الأول فوق الصورة */
-#epicSeasonsListContainer .epic-season-box:nth-child(1) .season-num-big,
-#epicSeasonsListContainer .epic-season-box:nth-child(1) .season-name-txt {
-    color: #ffffff !important;
+.epic-seasons-grid
+.epic-season-box:nth-child(1)
+.season-num-big,
+.epic-seasons-grid
+.epic-season-box:nth-child(1)
+.season-name-txt {
+    color: #ffffff;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
-#epicSeasonsListContainer .epic-season-box:nth-child(1) .season-status-pill {
-    background: rgba(245, 158, 11, 0.9) !important;
-    color: #05070b !important;
+.epic-seasons-grid
+.epic-season-box:nth-child(1)
+.season-status-pill {
+    background: rgba(245, 158, 11, 0.9);
+    color: #05070b;
     font-weight: 900;
     border: none;
 }
 
-/* قائمة الحلقات */
+/* =========================
+   الحلقات
+   ========================= */
+
 .epic-episodes-list {
     display: flex;
     flex-direction: column;
@@ -502,7 +602,6 @@ body.epic-body-container {
     font-weight: 800;
     font-size: 0.82rem;
     cursor: pointer;
-    border: 1px solid rgba(255, 255, 255, 0.25);
     box-shadow: 0 4px 15px var(--epic-gold-glow);
 }
 
@@ -521,7 +620,10 @@ body.epic-body-container {
     font-weight: 700;
 }
 
-/* الكاتب والاعدادات */
+/* =========================
+   كرت الكاتب
+   ========================= */
+
 .epic-author-card {
     background: var(--epic-card-bg);
     border: 1px solid var(--epic-border-gold);
@@ -543,19 +645,280 @@ body.epic-body-container {
     color: var(--epic-text-muted);
 }
 
-.author-quote-box {
-    margin-top: 16px;
-    background: var(--epic-bg-main);
-    border: 1px dashed var(--epic-gold);
-    padding: 15px;
-    border-radius: 12px;
-    text-align: center;
-    font-weight: 800;
-    color: var(--epic-gold);
-    font-size: 0.85rem;
+/* =========================
+   الإعدادات — الشكل الجديد
+   ========================= */
+
+/*
+   نخلي صفحة الإعدادات نفسها
+   عبارة عن لوحة صغيرة بدل صفحة كاملة
+*/
+
+#view-settings {
+    width: 100%;
+    max-width: 270px;
+    margin: 35px auto 0 auto;
+    background: var(--epic-card-bg);
+    border: 1px solid var(--epic-border-gold);
+    border-radius: 20px;
+    padding: 18px;
+    box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.35);
 }
 
-/* النوافذ المنبثقة (Modals) */
+/* عنوان الإعدادات */
+
+#view-settings .epic-section-header {
+    margin-bottom: 16px;
+    gap: 10px;
+}
+
+#view-settings .epic-section-header h2 {
+    font-size: 1.15rem;
+}
+
+#view-settings .epic-section-header p {
+    display: none;
+}
+
+/* زر الرجوع */
+
+#view-settings .epic-back-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    font-size: 1rem;
+}
+
+/* الكرت الداخلي */
+
+#view-settings .epic-author-card {
+    background: transparent;
+    border: none;
+    padding: 0;
+    box-shadow: none;
+
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+/* كل أزرار الإعدادات */
+
+#view-settings .epic-author-card button,
+#view-settings .epic-nav-card {
+    width: 100% !important;
+    min-height: 45px;
+    padding: 9px 12px !important;
+    border-radius: 12px;
+    font-size: 0.78rem;
+}
+
+/* أزرار gold */
+
+#view-settings .epic-btn-gold {
+    background: var(--epic-bg-main);
+    color: var(--epic-text-main);
+    border: 1px solid var(--epic-border-gold);
+    box-shadow: none;
+    font-weight: 800;
+}
+
+#view-settings .epic-btn-gold:hover {
+    background: var(--epic-gold-glow);
+    border-color: var(--epic-gold);
+    transform: translateY(-1px);
+}
+
+/* زر الصوت */
+
+#view-settings .epic-btn-dim {
+    background: var(--epic-bg-main);
+    color: var(--epic-text-main);
+    border: 1px solid var(--epic-border-gold);
+    font-weight: 800;
+}
+
+#view-settings .epic-btn-dim:hover {
+    background: var(--epic-gold-glow);
+    border-color: var(--epic-gold);
+    transform: translateY(-1px);
+}
+
+/* =========================
+   مذكرات سيزوكي
+   ========================= */
+
+#view-notes .epic-author-card {
+    min-height: 150px;
+}
+
+/* =========================
+   الخريطة
+   ========================= */
+
+.epic-map-container {
+    width: 100%;
+    background: var(--epic-card-bg);
+    border: 1px solid var(--epic-border-gold);
+    border-radius: 18px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.epic-discovered-map {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+}
+
+/* =========================
+   أزرار التواصل
+   ========================= */
+
+.author-social-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.epic-social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 0.85rem;
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.epic-social-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.92;
+}
+
+.epic-social-btn.instagram {
+    background: linear-gradient(
+        45deg,
+        #f09433,
+        #e6683c,
+        #dc2743,
+        #cc2366,
+        #bc1888
+    );
+}
+
+.epic-social-btn.tiktok {
+    background: #111111;
+}
+
+.epic-social-btn.snapchat {
+    background: #f7e900;
+    color: #111111;
+}
+
+.epic-social-btn.facebook {
+    background: #1877f2;
+}
+
+.epic-social-btn.whatsapp {
+    background: #25D366;
+}
+
+/* =========================
+   زر إنستغرام القديم
+   ========================= */
+
+.epic-btn-instagram {
+    display: block;
+    background: linear-gradient(
+        45deg,
+        #f09433 0%,
+        #e6683c 25%,
+        #dc2743 50%,
+        #cc2366 75%,
+        #bc1888 100%
+    );
+    color: #ffffff;
+    text-align: center;
+    text-decoration: none;
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: 900;
+    margin-top: 20px;
+    font-family: 'Cairo', sans-serif;
+    box-shadow: 0 5px 15px rgba(220, 39, 67, 0.3);
+}
+
+.epic-btn-instagram:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(220, 39, 67, 0.5);
+}
+
+/* =========================
+   شريط التقدم
+   ========================= */
+
+.completion-progress-container {
+    background: var(--epic-card-bg);
+    padding: 14px 18px;
+    border-radius: 14px;
+    border: 1px solid var(--epic-border-gold);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.progress-text {
+    font-size: 0.9rem;
+    color: var(--epic-gold);
+    font-weight: 800;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.progress-bar-bg {
+    width: 100%;
+    height: 8px;
+    background: var(--epic-bg-main);
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--epic-gradient-gold);
+    transition: width 0.8s cubic-bezier(
+        0.16,
+        1,
+        0.3,
+        1
+    );
+}
+
+.watched-badge {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    margin-right: 10px;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* =========================
+   النوافذ المنبثقة
+   ========================= */
+
 .epic-modal-overlay {
     position: fixed;
     inset: 0;
@@ -614,7 +977,8 @@ body.epic-body-container {
 
 .epic-input-field:focus {
     border-color: var(--epic-gold);
-    box-shadow: 0 0 0 3px var(--epic-gold-glow);
+    box-shadow:
+        0 0 0 3px var(--epic-gold-glow);
 }
 
 .epic-modal-actions {
@@ -634,6 +998,10 @@ body.epic-body-container {
     box-shadow: 0 5px 15px var(--epic-gold-glow);
 }
 
+.epic-btn-gold:hover {
+    transform: translateY(-2px);
+}
+
 .epic-btn-dim {
     flex: 1;
     background: var(--epic-card-bg);
@@ -645,6 +1013,10 @@ body.epic-body-container {
     cursor: pointer;
 }
 
+.epic-btn-dim:hover {
+    border-color: var(--epic-gold);
+}
+
 .epic-rating-stats-result {
     margin-top: 15px;
     font-size: 0.85rem;
@@ -652,73 +1024,42 @@ body.epic-body-container {
     color: var(--epic-gold);
 }
 
-/* =========================================
-   إضافات شريط التقدم، شارة المشاهدة، والإنستغرام
-   ========================================= */
+/* =========================
+   الهاتف
+   ========================= */
 
-.completion-progress-container {
-    background: var(--epic-card-bg);
-    padding: 14px 18px;
-    border-radius: 14px;
-    border: 1px solid var(--epic-border-gold);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+@media (max-width: 480px) {
+
+    .epic-app-wrapper {
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
+
+    .epic-header-master {
+        padding: 13px 16px;
+    }
+
+    .epic-viewport-canvas {
+        padding: 18px;
+    }
+
+    .clean-epic-title {
+        font-size: 1.65rem;
+    }
+
+    #view-settings {
+        max-width: 260px;
+        margin-top: 25px;
+        padding: 16px;
+    }
 }
 
-.progress-text {
-    font-size: 0.9rem;
-    color: var(--epic-gold);
-    font-weight: 800;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-}
 
-.progress-bar-bg {
-    width: 100%;
-    height: 8px;
-    background: var(--epic-bg-main);
-    border-radius: 6px;
-    overflow: hidden;
-    border: 1px solid rgba(245, 158, 11, 0.2);
-}
 
-.progress-bar-fill {
-    height: 100%;
-    width: 0%;
-    background: var(--epic-gradient-gold);
-    transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
+@media (min-width: 700px) {
 
-.watched-badge {
-    background: rgba(16, 185, 129, 0.15);
-    color: #10b981;
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    padding: 4px 8px;
-    border-radius: 8px;
-    font-size: 0.7rem;
-    font-weight: 800;
-    margin-right: 10px;
-    display: inline-flex;
-    align-items: center;
-}
-
-.epic-btn-instagram {
-    display: block;
-    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-    color: #ffffff;
-    text-align: center;
-    text-decoration: none;
-    padding: 14px;
-    border-radius: 12px;
-    font-weight: 900;
-    margin-top: 20px;
-    font-family: 'Cairo', sans-serif;
-    box-shadow: 0 5px 15px rgba(220, 39, 67, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.epic-btn-instagram:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(220, 39, 67, 0.5);
-    color: #ffffff;
+    .epic-app-wrapper {
+        height: 94vh;
+    }
 }
