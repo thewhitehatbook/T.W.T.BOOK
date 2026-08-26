@@ -35,31 +35,64 @@ const SamuraiAppEngine = {
     },
 
     setupBackgroundMusic() {
-        this.bgAudioInstance = new Audio(this.audioConfig.bgMusicPath);
-        this.bgAudioInstance.loop = true;
-        this.bgAudioInstance.volume = this.audioConfig.bgVolume;
+    this.bgAudioInstance = new Audio(this.audioConfig.bgMusicPath);
+    this.bgAudioInstance.loop = true;
+    this.bgAudioInstance.volume = this.audioConfig.bgVolume;
+    this.bgAudioInstance.preload = 'auto';
 
-        // دالة التشغيل
-        const startMusic = () => {
-            this.bgAudioInstance.play().then(() => {
-                // إذا نجح التشغيل، نمسح المستمعين عشان ما تتكرر العملية
-                document.removeEventListener('click', startMusic);
-                document.removeEventListener('touchstart', startMusic);
-                document.removeEventListener('keydown', startMusic);
-            }).catch(err => {
-                console.log("بانتظار تفاعل المستخدم للبدء...");
-            });
-        };
+    // معرفة هل التطبيق يعمل داخل WebView / تطبيق Android
+    const isApp = /Android/i.test(navigator.userAgent) &&
+                  !/Chrome\/|Edg\/|Firefox\/|SamsungBrowser\//i.test(navigator.userAgent);
 
-        // محاولة التشغيل الفوري (قد يمنعها المتصفح)
-        startMusic();
+    const startMusic = () => {
+        if (!this.bgAudioInstance) return;
+
+        this.bgAudioInstance.play().then(() => {
+            const iconEl = document.getElementById('musicToggleIcon');
+            if (iconEl) iconEl.innerText = '🔊';
+
+            console.log(isApp
+                ? "🎵 الموسيقى بدأت فوراً داخل التطبيق"
+                : "🎵 الموسيقى بدأت");
+        }).catch(() => {
+            // إذا كان موقعاً والمتصفح منع التشغيل التلقائي
+            if (!isApp) {
+                console.log("🌐 المتصفح منع التشغيل التلقائي، بانتظار أول تفاعل.");
+
+                document.addEventListener('click', startMusic, { once: true });
+                document.addEventListener('touchstart', startMusic, { once: true });
+                document.addEventListener('keydown', startMusic, { once: true });
+            }
+        });
+    };
+
+    // تشغيل فوري
+    startMusic();
+
 
         // الحل الجذري: بمجرد أن يضغط المستخدم في أي مكان، ستعمل الموسيقى فوراً
         document.addEventListener('click', startMusic);
         document.addEventListener('touchstart', startMusic); // للهواتف
         document.addEventListener('keydown', startMusic);    // للكمبيوتر
     },
+toggleBackgroundMusic() {
+    if (!this.bgAudioInstance) return;
 
+    if (this.bgAudioInstance.paused) {
+        this.bgAudioInstance.play().catch(err => {
+            console.log("تعذر تشغيل الموسيقى");
+        });
+
+        const iconEl = document.getElementById('musicToggleIcon');
+        if (iconEl) iconEl.innerText = '🔊';
+
+    } else {
+        this.bgAudioInstance.pause();
+
+        const iconEl = document.getElementById('musicToggleIcon');
+        if (iconEl) iconEl.innerText = '🔇';
+    }
+},
     // --- نظام صوت الضغطة (مؤثر السيف) ---
     playKatanaSlashSound() {
         try {

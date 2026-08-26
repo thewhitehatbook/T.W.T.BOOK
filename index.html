@@ -31,16 +31,14 @@
                 </div>
             </div>
             <div class="header-tools-group">
-                <button class="epic-tool-btn" onclick="playEpicKatanaSound(); toggleEpicThemeMode();" title="تبديل السمات">
-                    <span id="themeToggleIcon">🌒</span>
-                </button>
-                <button class="epic-tool-btn" onclick="playEpicKatanaSound(); openEpicHonorModal();" title="سجل الخالدين والتقييم">
-                    <span>📜</span>
-                </button>
-                <button class="epic-tool-btn" onclick="playEpicKatanaSound(); openEpicAudioSettingsModal();" title="الصوتيات">
-                    <span>🎵</span>
-                </button>
-            </div>
+    <button class="epic-tool-btn" onclick="SamuraiAppEngine.toggleBackgroundMusic();" title="كتم / تشغيل الموسيقى">
+        <span id="musicToggleIcon">🔊</span>
+    </button>
+
+    <button class="epic-tool-btn" onclick="playEpicKatanaSound(); switchEpicView('view-settings');" title="الإعدادات">
+        <span>⚙️</span>
+    </button>
+</div>
         </header>
 
         <main class="epic-viewport-canvas" id="epicViewportCanvas">
@@ -69,16 +67,6 @@
                         </div>
                         <div class="nav-card-arrow">←</div>
                     </button>
-
-                    <button class="epic-nav-card" onclick="playEpicKatanaSound(); switchEpicView('view-settings');">
-                        <div class="nav-card-icon">⚙️</div>
-                        <div class="nav-card-content">
-                            <h3>الاعدادات</h3>
-                            <p>تخصيص التفضيلات، السمات البصرية، والأدوات</p>
-                        </div>
-                        <div class="nav-card-arrow">←</div>
-                    </button>
-
                 </div>
             </section>
 
