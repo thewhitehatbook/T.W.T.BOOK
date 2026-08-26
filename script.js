@@ -40,56 +40,49 @@ const SamuraiAppEngine = {
     this.bgAudioInstance.volume = this.audioConfig.bgVolume;
     this.bgAudioInstance.preload = 'auto';
 
-    // معرفة هل التطبيق يعمل داخل WebView / تطبيق Android
-    const isApp = /Android/i.test(navigator.userAgent) &&
-                  !/Chrome\/|Edg\/|Firefox\/|SamsungBrowser\//i.test(navigator.userAgent);
-
+    // محاولة التشغيل مباشرة عند فتح التطبيق/الموقع
     const startMusic = () => {
         if (!this.bgAudioInstance) return;
 
-        this.bgAudioInstance.play().then(() => {
-            const iconEl = document.getElementById('musicToggleIcon');
-            if (iconEl) iconEl.innerText = '🔊';
+        this.bgAudioInstance.play()
+            .then(() => {
+                console.log("🎵 الموسيقى تعمل الآن");
+                const iconEl = document.getElementById('musicToggleIcon');
+                if (iconEl) iconEl.innerText = '🔊';
 
-            console.log(isApp
-                ? "🎵 الموسيقى بدأت فوراً داخل التطبيق"
-                : "🎵 الموسيقى بدأت");
-        }).catch(() => {
-            // إذا كان موقعاً والمتصفح منع التشغيل التلقائي
-            if (!isApp) {
-                console.log("🌐 المتصفح منع التشغيل التلقائي، بانتظار أول تفاعل.");
-
-                document.addEventListener('click', startMusic, { once: true });
-                document.addEventListener('touchstart', startMusic, { once: true });
-                document.addEventListener('keydown', startMusic, { once: true });
-            }
-        });
+                // بعد نجاح التشغيل لا نحتاج مستمعات التفاعل
+                document.removeEventListener('click', startMusic);
+                document.removeEventListener('touchstart', startMusic);
+                document.removeEventListener('keydown', startMusic);
+            })
+            .catch(() => {
+                console.log("🎵 المتصفح يمنع التشغيل التلقائي حالياً");
+            });
     };
 
-    // تشغيل فوري
+    // التشغيل الفوري
     startMusic();
 
+    // للموقع: إذا المتصفح منع التشغيل، يبدأ عند أول تفاعل
+    document.addEventListener('click', startMusic);
+    document.addEventListener('touchstart', startMusic);
+    document.addEventListener('keydown', startMusic);
+},
 
-        // الحل الجذري: بمجرد أن يضغط المستخدم في أي مكان، ستعمل الموسيقى فوراً
-        document.addEventListener('click', startMusic);
-        document.addEventListener('touchstart', startMusic); // للهواتف
-        document.addEventListener('keydown', startMusic);    // للكمبيوتر
-    },
 toggleBackgroundMusic() {
     if (!this.bgAudioInstance) return;
 
+    const iconEl = document.getElementById('musicToggleIcon');
+
     if (this.bgAudioInstance.paused) {
-        this.bgAudioInstance.play().catch(err => {
-            console.log("تعذر تشغيل الموسيقى");
-        });
-
-        const iconEl = document.getElementById('musicToggleIcon');
-        if (iconEl) iconEl.innerText = '🔊';
-
+        this.bgAudioInstance.play()
+            .then(() => {
+                if (iconEl) iconEl.innerText = '🔊';
+            })
+            .catch(() => {});
     } else {
         this.bgAudioInstance.pause();
 
-        const iconEl = document.getElementById('musicToggleIcon');
         if (iconEl) iconEl.innerText = '🔇';
     }
 },
