@@ -1056,10 +1056,13 @@ body.epic-body-container {
 }
 
 
-
 @media (min-width: 700px) {
 
     .epic-app-wrapper {
         height: 94vh;
     }
+}
+#view-notes .epic-author-card,
+#view-notes .epic-author-card * {
+    color: #ffffff !important;
 }
