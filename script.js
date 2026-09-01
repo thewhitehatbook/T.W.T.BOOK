@@ -5,19 +5,18 @@
 'use strict';
 
 const SamuraiAppEngine = {
-    version: '4.3.0',
+    version: '4.3.1',
     author: 'سجاد ثامر',
     activeSeason: 1,
     totalSeasons: 6,
     episodesPerSeason: 9,
-    unlockedEpisodesDownloadLimit: 4, // تم فتح الحلقة 1 و 2 و 3
+    unlockedEpisodesDownloadLimit: 4, 
     
-    // إعدادات الصوت والمسارات
     audioConfig: {
-        bgMusicPath: 'samuri.mp3', // مسار أغنية الخلفية
-        clickSoundPath: 'katana-schwing.mp3',  // مسار صوت الضغطة (السيف)
-        bgVolume: 0.4,   // مستوى صوت الخلفية (من 0.0 إلى 1.0)
-        clickVolume: 0.6  // مستوى صوت الضغطة (من 0.0 إلى 1.0)
+        bgMusicPath: 'itachi.mp3',
+        clickSoundPath: 'katana-schwing.mp3', 
+        bgVolume: 0.4, 
+        clickVolume: 0.6 
     },
     bgAudioInstance: null,
 
@@ -35,63 +34,49 @@ const SamuraiAppEngine = {
     },
 
     setupBackgroundMusic() {
-    this.bgAudioInstance = new Audio(this.audioConfig.bgMusicPath);
-    this.bgAudioInstance.loop = true;
-    this.bgAudioInstance.volume = this.audioConfig.bgVolume;
-    this.bgAudioInstance.preload = 'auto';
+        this.bgAudioInstance = new Audio(this.audioConfig.bgMusicPath);
+        this.bgAudioInstance.loop = true;
+        this.bgAudioInstance.volume = this.audioConfig.bgVolume;
+        this.bgAudioInstance.preload = 'auto';
 
-    // محاولة التشغيل مباشرة عند فتح التطبيق/الموقع
-    const startMusic = () => {
+        const startMusic = () => {
+            if (!this.bgAudioInstance) return;
+            this.bgAudioInstance.play()
+                .then(() => {
+                    const iconEl = document.getElementById('musicToggleIcon');
+                    if (iconEl) iconEl.innerText = '🔊';
+                    document.removeEventListener('click', startMusic);
+                    document.removeEventListener('touchstart', startMusic);
+                    document.removeEventListener('keydown', startMusic);
+                })
+                .catch(() => {});
+        };
+
+        startMusic();
+        document.addEventListener('click', startMusic);
+        document.addEventListener('touchstart', startMusic);
+        document.addEventListener('keydown', startMusic);
+    },
+
+    toggleBackgroundMusic() {
         if (!this.bgAudioInstance) return;
+        const iconEl = document.getElementById('musicToggleIcon');
 
-        this.bgAudioInstance.play()
-            .then(() => {
-                console.log("🎵 الموسيقى تعمل الآن");
-                const iconEl = document.getElementById('musicToggleIcon');
-                if (iconEl) iconEl.innerText = '🔊';
+        if (this.bgAudioInstance.paused) {
+            this.bgAudioInstance.play()
+                .then(() => { if (iconEl) iconEl.innerText = '🔊'; })
+                .catch(() => {});
+        } else {
+            this.bgAudioInstance.pause();
+            if (iconEl) iconEl.innerText = '🔇';
+        }
+    },
 
-                // بعد نجاح التشغيل لا نحتاج مستمعات التفاعل
-                document.removeEventListener('click', startMusic);
-                document.removeEventListener('touchstart', startMusic);
-                document.removeEventListener('keydown', startMusic);
-            })
-            .catch(() => {
-                console.log("🎵 المتصفح يمنع التشغيل التلقائي حالياً");
-            });
-    };
-
-    // التشغيل الفوري
-    startMusic();
-
-    // للموقع: إذا المتصفح منع التشغيل، يبدأ عند أول تفاعل
-    document.addEventListener('click', startMusic);
-    document.addEventListener('touchstart', startMusic);
-    document.addEventListener('keydown', startMusic);
-},
-
-toggleBackgroundMusic() {
-    if (!this.bgAudioInstance) return;
-
-    const iconEl = document.getElementById('musicToggleIcon');
-
-    if (this.bgAudioInstance.paused) {
-        this.bgAudioInstance.play()
-            .then(() => {
-                if (iconEl) iconEl.innerText = '🔊';
-            })
-            .catch(() => {});
-    } else {
-        this.bgAudioInstance.pause();
-
-        if (iconEl) iconEl.innerText = '🔇';
-    }
-},
-    // --- نظام صوت الضغطة (مؤثر السيف) ---
     playKatanaSlashSound() {
         try {
             const clickAudio = new Audio(this.audioConfig.clickSoundPath);
             clickAudio.volume = this.audioConfig.clickVolume;
-            clickAudio.currentTime = 0; // إعادة الصوت للبداية فوراً عند كل ضغطة
+            clickAudio.currentTime = 0;
             clickAudio.play().catch(err => {});
         } catch (err) {}
     },
@@ -110,19 +95,7 @@ toggleBackgroundMusic() {
         const savedTheme = localStorage.getItem(this.storageKeys.theme);
         if (savedTheme === 'light') {
             document.body.classList.add('light-mode-active');
-            const iconEl = document.getElementById('themeToggleIcon');
-            if (iconEl) iconEl.innerText = '☀️';
         }
-    },
-
-    toggleThemeMode() {
-        this.playKatanaSlashSound();
-        const bodyEl = document.body;
-        bodyEl.classList.toggle('light-mode-active');
-        const isLight = bodyEl.classList.contains('light-mode-active');
-        localStorage.setItem(this.storageKeys.theme, isLight ? 'light' : 'dark');
-        const iconEl = document.getElementById('themeToggleIcon');
-        if (iconEl) iconEl.innerText = isLight ? '☀️' : '🌒';
     },
 
     switchView(targetViewId) {
@@ -159,8 +132,7 @@ toggleBackgroundMusic() {
             } else {
                 seasonBox.className = 'epic-season-box locked';
                 seasonBox.onclick = () => {
-                    this.playKatanaSlashSound();
-                    alert(`🔒 هذا الموسم قريبًا  .`);
+                    openCustomAlertModal('🔒 هذا الموسم قريباً جداً.');
                 };
                 seasonBox.innerHTML = `
                     <div class="season-num-big">🔒</div>
@@ -286,12 +258,12 @@ toggleBackgroundMusic() {
         const raterScore = parseFloat(scoreInput.value);
 
         if (!raterName) {
-            alert("عذراً، يجب إدخال اسمك أو لقبك الكريم أولاً.");
+            openCustomAlertModal("عذراً، يجب إدخال اسمك أو لقبك الكريم أولاً.");
             return;
         }
 
         if (isNaN(raterScore) || raterScore < 0 || raterScore > 5) {
-            alert("قيمة التقييم غير صالحة. يجب أن تكون حصراً بين 0 و 5.");
+            openCustomAlertModal("قيمة التقييم غير صالحة. يجب أن تكون حصراً بين 0 و 5.");
             return;
         }
 
@@ -303,7 +275,7 @@ toggleBackgroundMusic() {
         scoreInput.value = '';
 
         this.renderRatingsStats();
-        alert(`أيها المحارب الباسل (${raterName})، تم توثيق تقييمك بنجاح!`);
+        openCustomAlertModal(`أيها المحارب الباسل (${raterName})، تم توثيق تقييمك بنجاح!`);
     },
 
     renderRatingsStats() {
@@ -325,13 +297,27 @@ toggleBackgroundMusic() {
 
 window.addEventListener('DOMContentLoaded', () => SamuraiAppEngine.init());
 
+// دوال التحكم بالنافذة المنبثقة المخصصة (تلغي رسائل كروم تماماً)
+function showCustomAlert(message) {
+    const modal = document.getElementById('epicCustomAlertModal');
+    const textEl = document.getElementById('epicAlertMessageText');
+    if (textEl) textEl.innerText = message;
+    if (modal) modal.style.display = 'flex';
+}
+
+function closeCustomAlert() {
+    const modal = document.getElementById('epicCustomAlertModal');
+    if (modal) modal.style.display = 'none';
+}
+
+function openCustomAlertModal(message) {
+    SamuraiAppEngine.playKatanaSlashSound();
+    showCustomAlert(message);
+}
+
 // الدوال العامة المربوطة بالأزرار
 function playEpicKatanaSound() { SamuraiAppEngine.playKatanaSlashSound(); }
 function switchEpicView(viewId) { SamuraiAppEngine.playKatanaSlashSound(); SamuraiAppEngine.switchView(viewId); }
-function toggleEpicThemeMode() { SamuraiAppEngine.toggleThemeMode(); }
-function executeEpicExitProtocol() { SamuraiAppEngine.executeEpicExitProtocol(); }
 function openEpicHonorModal() { SamuraiAppEngine.openModal('epicHonorModal'); }
 function closeEpicHonorModal() { SamuraiAppEngine.closeModal('epicHonorModal'); }
-function openEpicAudioSettingsModal() { SamuraiAppEngine.openModal('epicAudioModal'); }
-function closeEpicAudioSettingsModal() { SamuraiAppEngine.closeModal('epicAudioModal'); }
 function submitEpicRating() { SamuraiAppEngine.submitRating(); }

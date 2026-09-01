@@ -1,660 +1,189 @@
 <!DOCTYPE html>
-
 <html lang="ar" dir="rtl" class="samurai-epic-root">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رواية القبعة البيضاء | سجاد ثامر</title>
-
-
-<link rel="stylesheet" href="style.css">
-
-<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-
-
+    <title>القبعة البيضاء | سجاد ثامر</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 </head>
-
 <body id="epicMasterBody" class="epic-body-container">
-
 
 <!-- شاشة التحميل -->
 <div id="epicCinematicLoader" class="cinematic-loader-overlay">
     <div class="loader-inner-box">
         <div class="loader-sword-symbol">⚔️</div>
-
-        <h1 class="loader-title-glow">
-            رواية القبعة البيضاء
-        </h1>
-
-        <p class="loader-subtitle-text">
-            سجاد ثامر
-        </p>
-
+        <h1 class="loader-title-glow">القبعة البيضاء</h1>
+        <p class="loader-subtitle-text">سجاد ثامر</p>
         <div class="epic-progress-track">
             <div class="epic-progress-indicator"></div>
         </div>
     </div>
 </div>
 
-
 <!-- التطبيق -->
 <div class="epic-app-wrapper" id="epicAppWrapper">
-
-    <!-- الهيدر -->
     <header class="epic-header-master">
-
-        <!-- شعار الرواية -->
-        <div class="brand-identity-box"
-             onclick="playEpicKatanaSound(); switchEpicView('view-home');">
-
-            <span class="brand-crest">⛩️</span>
-
+        <div class="brand-identity-box" onclick="playEpicKatanaSound(); switchEpicView('view-home');">
             <div class="brand-text-group">
-                <span class="brand-main-name">
-                    القبعة البيضاء
-                </span>
-
-                <span class="brand-sub-name">
-                    سجاد ثامر
-                </span>
+                <span class="brand-main-name">القبعة البيضاء</span>
+                <span class="brand-sub-name">سجاد ثامر</span>
             </div>
-
         </div>
-
-
-        <!-- أزرار الهيدر -->
         <div class="header-tools-group">
-
-            <!-- كتم / تشغيل الموسيقى -->
-            <button
-                class="epic-tool-btn"
-                onclick="SamuraiAppEngine.toggleBackgroundMusic();"
-                title="كتم / تشغيل الموسيقى">
-
+            <button class="epic-tool-btn" onclick="SamuraiAppEngine.toggleBackgroundMusic();" title="كتم / تشغيل الموسيقى">
                 <span id="musicToggleIcon">🔊</span>
-
             </button>
-
-
-            <!-- الوضع الداكن / الفاتح -->
-            <button
-                class="epic-tool-btn"
-                onclick="toggleEpicThemeMode();"
-                title="الوضع الداكن / الفاتح">
-
-                <span id="themeToggleIcon">🌒</span>
-
-            </button>
-
         </div>
-
     </header>
 
-
-    <!-- المحتوى -->
     <main class="epic-viewport-canvas" id="epicViewportCanvas">
-
-
-        <!-- =========================
-             الصفحة الرئيسية
-        ========================== -->
-        <section id="view-home"
-                 class="epic-view-section active">
-
+        <!-- الصفحة الرئيسية -->
+        <section id="view-home" class="epic-view-section active">
             <div class="clean-author-banner">
-
-                <h1 class="clean-epic-title">
-                    رواية القبعة البيضاء
-                </h1>
-
-                <p class="clean-epic-author">
-                    الكاتب: سجاد ثامر
-                </p>
-
+                <h1 class="clean-epic-title">القبعة البيضاء</h1>
+                <p class="clean-epic-author">سجاد ثامر</p>
             </div>
-
-
             <div class="epic-navigation-grid">
-
-
-                <!-- رحلة سيزوكي -->
-                <button
-                    class="epic-nav-card"
-                    onclick="playEpicKatanaSound(); switchEpicView('view-seasons');">
-
-                    <div class="nav-card-icon">
-                        📜
-                    </div>
-
+                <button class="epic-nav-card" onclick="playEpicKatanaSound(); switchEpicView('view-seasons');">
+                    <div class="nav-card-icon">📜</div>
                     <div class="nav-card-content">
-
-                        <h3>
-                            رحلة سيزوكي
-                        </h3>
-
-                        <p>
-                            تصفح المواسم الستة الملحمية والمخطوطات التابعة لها
-                        </p>
-
+                        <h3>رحلة سيزوكي</h3>
+                        <p></p>
                     </div>
-
-                    <div class="nav-card-arrow">
-                        ←
-                    </div>
-
+                    <div class="nav-card-arrow">←</div>
                 </button>
-
-
-                <!-- حساب الكاتب -->
-                <button
-                    class="epic-nav-card"
-                    onclick="playEpicKatanaSound(); switchEpicView('view-author');">
-
-                    <div class="nav-card-icon">
-                        ✍️
-                    </div>
-
+                <button class="epic-nav-card" onclick="playEpicKatanaSound(); switchEpicView('view-author');">
+                    <div class="nav-card-icon">✍️</div>
                     <div class="nav-card-content">
-
-                        <h3>
-                            حساب الكاتب
-                        </h3>
-
-                        <p>
-                            تعرف على الكاتب وتواصل معه عبر منصات التواصل
-                        </p>
-
+                        <h3>حساب الكاتب</h3>
+                        <p></p>
                     </div>
-
-                    <div class="nav-card-arrow">
-                        ←
-                    </div>
-
+                    <div class="nav-card-arrow">←</div>
                 </button>
-
-
-                <!-- مذكرات سيزوكي -->
-                <button
-                    class="epic-nav-card"
-                    onclick="playEpicKatanaSound(); switchEpicView('view-notes');">
-
-                    <div class="nav-card-icon">
-                        📖
-                    </div>
-
+                <button class="epic-nav-card" onclick="playEpicKatanaSound(); switchEpicView('view-notes');">
+                    <div class="nav-card-icon">📖</div>
                     <div class="nav-card-content">
-
-                        <h3>
-                            مذكرات سيزوكي
-                        </h3>
-
-                        <p>
-                            مذكرات وأسرار سيزوكي المسجلة عبر رحلته
-                        </p>
-
+                        <h3>مذكرات سيزوكي</h3>
+                        <p></p>
                     </div>
-
-                    <div class="nav-card-arrow">
-                        ←
-                    </div>
-
+                    <div class="nav-card-arrow">←</div>
                 </button>
-
-
-                <!-- الخريطة -->
-                <button
-                    class="epic-nav-card"
-                    onclick="playEpicKatanaSound(); switchEpicView('view-map');">
-
-                    <div class="nav-card-icon">
-                        🗺️
-                    </div>
-
+                <button class="epic-nav-card" onclick="playEpicKatanaSound(); switchEpicView('view-map');">
+                    <div class="nav-card-icon">🗺️</div>
                     <div class="nav-card-content">
-
-                        <h3>
-                            الخريطة المكتشفة
-                        </h3>
-
-                        <p>
-                            استكشف المناطق التي اكتشفها سيزوكي خلال رحلته
-                        </p>
-
+                        <h3>الخريطة المكتشفة</h3>
+                        <p></p>
                     </div>
-
-                    <div class="nav-card-arrow">
-                        ←
-                    </div>
-
+                    <div class="nav-card-arrow">←</div>
                 </button>
-
             </div>
-
         </section>
 
-
-
-        <!-- =========================
-             المواسم
-        ========================== -->
-        <section id="view-seasons"
-                 class="epic-view-section">
-
+        <!-- المواسم -->
+        <section id="view-seasons" class="epic-view-section">
             <div class="epic-section-header">
-
-                <button
-                    class="epic-back-btn"
-                    onclick="playEpicKatanaSound(); switchEpicView('view-home');">
-                    ←
-                </button>
-
+                <button class="epic-back-btn" onclick="playEpicKatanaSound(); switchEpicView('view-home');">←</button>
                 <div>
-
-                    <h2>
-                        المواسم الستة الملحمية
-                    </h2>
-
-                    <p>
-                        الموسم الأول مفتوح بالكامل، وباقي المواسم مقفلة بإحكام
-                    </p>
-
+                    <h2>المواسم الستة الملحمية</h2>
+                    <p></p>
                 </div>
-
             </div>
-
-
-            <div
-                class="epic-seasons-grid"
-                id="epicSeasonsGridContainer">
-            </div>
-
+            <div class="epic-seasons-grid" id="epicSeasonsGridContainer"></div>
         </section>
 
-
-
-        <!-- =========================
-             الحلقات
-        ========================== -->
-        <section id="view-episodes"
-                 class="epic-view-section">
-
-            <div
-                class="epic-section-header"
-                style="margin-bottom: 10px;">
-
-                <button
-                    class="epic-back-btn"
-                    onclick="playEpicKatanaSound(); switchEpicView('view-seasons');">
-                    ←
-                </button>
-
+        <!-- الحلقات -->
+        <section id="view-episodes" class="epic-view-section">
+            <div class="epic-section-header" style="margin-bottom: 10px;">
+                <button class="epic-back-btn" onclick="playEpicKatanaSound(); switchEpicView('view-seasons');">←</button>
                 <div style="width: 100%;">
-
-                    <h2 id="epicActiveSeasonTitle">
-                        مخطوطات الحلقات
-                    </h2>
-
-                    <p>
-                        الحلقات المتاحة حالياً للمشاهدة والتحميل
-                    </p>
-
+                    <h2 id="epicActiveSeasonTitle">مخطوطات الحلقات</h2>
+                    <p></p>
                 </div>
-
             </div>
-
-
-            <!-- نسبة الإكمال -->
             <div class="completion-progress-container">
-
                 <div class="progress-text">
-
-                    نسبة الإكمال للموسم:
-
-                    <span id="seasonCompletionText">
-                        0%
-                    </span>
-
+                    نسبة الإكمال للموسم: <span id="seasonCompletionText">0%</span>
                 </div>
-
-
                 <div class="progress-bar-bg">
-
-                    <div
-                        class="progress-bar-fill"
-                        id="seasonCompletionBar">
-                    </div>
-
+                    <div class="progress-bar-fill" id="seasonCompletionBar"></div>
                 </div>
-
             </div>
-
-
-            <!-- قائمة الحلقات -->
-            <div
-                class="epic-episodes-list"
-                id="epicEpisodesListContainer"
-                style="margin-top: 20px;">
-            </div>
-
+            <div class="epic-episodes-list" id="epicEpisodesListContainer" style="margin-top: 20px;"></div>
         </section>
 
-
-
-        <!-- =========================
-             مذكرات سيزوكي
-        ========================== -->
-        <section id="view-notes"
-                 class="epic-view-section">
-
+        <!-- مذكرات سيزوكي -->
+        <section id="view-notes" class="epic-view-section">
             <div class="epic-section-header">
-
-                <button
-                    class="epic-back-btn"
-                    onclick="playEpicKatanaSound(); switchEpicView('view-home');">
-                    ←
-                </button>
-
+                <button class="epic-back-btn" onclick="playEpicKatanaSound(); switchEpicView('view-home');">←</button>
                 <div>
-
-                    <h2>
-                        مذكرات سيزوكي
-                    </h2>
-
-                    <p>
-                        سجل الرحلة والأحداث
-                    </p>
-
+                    <h2>مذكرات سيزوكي</h2>
+                    <p></p>
                 </div>
-
             </div>
-
-
             <div class="epic-author-card">
-
-                <h3>
-                    📖 مذكرات سيزوكي
-                </h3>
-
+                <h3>📖 مذكرات سيزوكي</h3>
                 <p>
-             مرحبًا، اسمي سوكاني سيزوكي. أبلغ من العمر عشر سنوات حاليًا، ويبلغ طولي نحو أربعة شكو وخمسة صون، أكتب هذا الكتاب الآن لأوثّق رحلتي، ولأحفظ كل ما مررت به منذ وفاة عائلتي العزيزة. قد لا يتذكر أحد ما حدث بعد سنوات، لذلك قررت أن أكتب كل شيء بنفسي، حتى يعرف الجميع من هو الساموراي الذهبي. اعذروني، أنا أكتب هذه الآن وأنا أبكي، لكن أقسم أن أجعل من قتل عائلتي يبكي أمامي.
-
-أنا الآن في السفينة، بعد ما ودعت بيتي وشجرتي العزيزة، وحتى بيتي البسيط. وأيضًا قابلت مهرجًا يدعى سايكو، هو من أركبني هذه السفينة. والآن تعرفت على صديقي النائم على كتفي، إنه يدعى زيو، وهو أكبر مني بسنة تقريبًا، وهو أيضًا هدفه نفس هدفي. والغريب أن العنوان الذي نذهب إليه هو نفسه. لا أعلم ماذا ينتظرني، لكني أؤمن أني لست خائفًا من أي شيء.
-
-أنا الآن جالس أمام النهر، بعد ما وصلت أنا وزيو إلى العنوان، وقد ساعدنا سايكو للوصول إليه. لقد وصلنا وتعرفنا على كايتو ونيري، إنهم لطيفان حقًا. والآن قد حل الليل، لكن لا أستطيع النوم، فأنا لا أستطيع تخطي مشهد موت عائلتي، وفي رأسي مليون سؤال، ولهذا أنا أكتب الآن، وقلبي مكسور، وأنا أنظر للنهر الجميل.
+                    مرحبًا، اسمي سوكاني سيزوكي. أبلغ من العمر عشر سنوات حاليًا، ويبلغ طولي نحو أربعة شكو وخمسة صون، أكتب هذا الكتاب الآن لأوثّق رحلتي، ولأحفظ كل ما مررت به منذ وفاة عائلتي العزيزة. قد لا يتذكر أحد ما حدث بعد سنوات، لذلك قررت أن أكتب كل شيء بنفسي، حتى يعرف الجميع من هو الساموراي الذهبي. اعذروني، أنا أكتب هذه الآن وأنا أبكي، لكن أقسم أن أجعل من قتل عائلتي يبكي أمامي.<br><br>
+                    أنا الآن في السفينة، بعد ما ودعت بيتي وشجرتي العزيزة، وحتى بيتي البسيط. وأيضًا قابلت مهرجًا يدعى سايكو، هو من أركبني هذه السفينة. والأن تعرفت على صديقي النائم على كتفي، إنه يدعى زيو، وهو أكبر مني بسنة تقريبًا، وهو أيضًا هدفه نفس هدفي. والغريب أن العنوان الذي نذهب إليه هو نفسه. لا أعلم ماذا ينتظرني، لكني أؤمن أني لست خائفًا من أي شيء.<br><br>
+                    أنا الآن جالس أمام النهر، بعد ما وصلت أنا وزيو إلى العنوان، وقد ساعدنا سايكو للوصول إليه. لقد وصلنا وتعرفنا على كايتو ونيري، إنهم لطيفان حقًا. والآن قد حل الليل، لكن لا أستطيع النوم، فأنا لا أستطيع تخطي مشهد موت عائلتي، وفي رأسي مليون سؤال، ولهذا أنا أكتب الآن، وقلبي مكسور، وأنا أنظر للنهر الجميل.
                 </p>
-
             </div>
-
         </section>
 
-
-
-        <!-- =========================
-             الخريطة
-        ========================== -->
-        <section id="view-map"
-                 class="epic-view-section">
-
+        <!-- الخريطة -->
+        <section id="view-map" class="epic-view-section">
             <div class="epic-section-header">
-
-                <button
-                    class="epic-back-btn"
-                    onclick="playEpicKatanaSound(); switchEpicView('view-home');">
-                    ←
-                </button>
-
+                <button class="epic-back-btn" onclick="playEpicKatanaSound(); switchEpicView('view-home');">←</button>
                 <div>
-
-                    <h2>
-                        الخريطة المكتشفة
-                    </h2>
-
-                    <p>
-                        المناطق التي تم اكتشافها
-                    </p>
-
+                    <h2>الخريطة المكتشفة</h2>
+                    <p></p>
                 </div>
-
             </div>
-
-
             <div class="epic-map-container">
-
-                <img
-                    src="map.png"
-                    alt="الخريطة المكتشفة"
-                    class="epic-discovered-map">
-
+                <img src="map.png" alt="الخريطة المكتشفة" class="epic-discovered-map">
             </div>
-
         </section>
 
-
-
-        <!-- =========================
-             حساب الكاتب
-        ========================== -->
-        <section id="view-author"
-                 class="epic-view-section">
-
+        <!-- حساب الكاتب -->
+        <section id="view-author" class="epic-view-section">
             <div class="epic-section-header">
-
-                <button
-                    class="epic-back-btn"
-                    onclick="playEpicKatanaSound(); switchEpicView('view-home');">
-                    ←
-                </button>
-
+                <button class="epic-back-btn" onclick="playEpicKatanaSound(); switchEpicView('view-home');">←</button>
                 <div>
-
-                    <h2>
-                        حساب الكاتب
-                    </h2>
-
-                    <p>
-                        تواصل مع الكاتب عبر منصات التواصل
-                    </p>
-
+                    <h2>حساب الكاتب</h2>
+                    <p></p>
                 </div>
-
             </div>
-
-
             <div class="epic-author-card">
-
-                <h3>
-                    سجاد ثامر
-                </h3>
-
-                <p>
-                    يمكنك متابعة الكاتب والتواصل معه عبر المنصات التالية:
-                </p>
-
-
+                <h3>سجاد ثامر</h3>
+                <p></p>
                 <div class="author-social-buttons">
-
-
-                    <!-- إنستغرام -->
-                    <a
-                        href="https://www.instagram.com/sd.kg.x1"
-                        target="_blank"
-                        class="epic-social-btn instagram"
-                        onclick="playEpicKatanaSound();">
-
-                        📸 إنستغرام
-
-                    </a>
-
-
-                    <!-- تيك توك -->
-                    <a
-                        href="https://www.tiktok.com/@sajad.author0"
-                        target="_blank"
-                        class="epic-social-btn tiktok"
-                        onclick="playEpicKatanaSound();">
-
-                        🎵 تيك توك
-
-                    </a>
-
-
-                    <!-- سناب شات -->
-                    <a
-                        href="https://www.snapchat.com/add/sd.kgx1"
-                        target="_blank"
-                        class="epic-social-btn snapchat"
-                        onclick="playEpicKatanaSound();">
-
-                        👻 سناب شات
-
-                    </a>
-
-
-                    <!-- فيسبوك -->
-                    <a
-                        href="https://www.facebook.com/share/1Ybdh2VHF3/"
-                        target="_blank"
-                        class="epic-social-btn facebook"
-                        onclick="playEpicKatanaSound();">
-
-                        📘 فيسبوك
-
-                    </a>
-
-
-                    <!-- واتساب -->
-                    <a
-                        href="https://wa.me/905511980947"
-                        target="_blank"
-                        class="epic-social-btn whatsapp"
-                        onclick="playEpicKatanaSound();">
-
-                        💬 واتساب
-
-                    </a>
-
+                    <a href="https://www.instagram.com/sd.kg.x1" target="_blank" class="epic-social-btn instagram" onclick="playEpicKatanaSound();">📸 إنستغرام</a>
+                    <a href="https://www.tiktok.com/@sajad.author0" target="_blank" class="epic-social-btn tiktok" onclick="playEpicKatanaSound();">🎵 تيك توك</a>
+                    <a href="https://www.snapchat.com/add/sd.kgx1" target="_blank" class="epic-social-btn snapchat" onclick="playEpicKatanaSound();">👻 سناب شات</a>
+                    <a href="https://www.facebook.com/share/1Ybdh2VHF3/" target="_blank" class="epic-social-btn facebook" onclick="playEpicKatanaSound();">📘 فيسبوك</a>
+                    <a href="https://wa.me/905511980947" target="_blank" class="epic-social-btn whatsapp" onclick="playEpicKatanaSound();">💬 واتساب</a>
                 </div>
-
             </div>
-
         </section>
-
     </main>
-
 </div>
 
 
 
-<!-- =========================
-     نافذة التقييم
-========================== -->
-<div
-    id="epicHonorModal"
-    class="epic-modal-overlay">
-
+<!-- نافذة رسالة التنبيه المخصصة (بديلة رسائل كروم) -->
+<div id="epicCustomAlertModal" class="epic-modal-overlay">
     <div class="epic-modal-card">
-
-        <h3>
-            ⭐ سجل شرف الخالدين
-        </h3>
-
-        <p>
-            سجل اسمك في لوحة محاربي الملحمة الأبديين وقيم العمل برتبة شرف
-        </p>
-
-
-        <div class="epic-form-group">
-
-            <input
-                type="text"
-                id="epicRaterName"
-                class="epic-input-field"
-                placeholder="اسم المحارب أو لقبك الكريم">
-
-
-            <input
-                type="number"
-                id="epicRaterScore"
-                class="epic-input-field"
-                min="0"
-                max="5"
-                step="0.5"
-                placeholder="التقييم (من 0 إلى 5)">
-
-        </div>
-
-
+        <h3>⚔️ إشعار الساموراي</h3>
+        <p id="epicAlertMessageText">هنا نص الرسالة أو التنبيه...</p>
         <div class="epic-modal-actions">
-
-            <button
-                class="epic-btn-gold"
-                onclick="playEpicKatanaSound(); submitEpicRating();">
-
-                ختم وتوثيق التقييم
-
+            <button class="epic-btn-gold" onclick="playEpicKatanaSound(); closeCustomAlert();">
+                حسناً، فهمت
             </button>
-
-
-            <button
-                class="epic-btn-dim"
-                onclick="playEpicKatanaSound(); closeEpicHonorModal();">
-
-                إغلاق السجل
-
-            </button>
-
         </div>
-
-
-        <div
-            id="epicRatingStatsDisplay"
-            class="epic-rating-stats-result">
-        </div>
-
     </div>
-
 </div>
 
-
-
-<!-- =========================
-     نافذة الصوت
-========================== -->
-<div
-    id="epicAudioModal"
-    class="epic-modal-overlay">
-
-    <div class="epic-modal-card">
-
-        <h3>
-            🎵 أجواء الساموراي الصوتية
-        </h3>
-
-        <p>
-            التحكم بالأجواء والمؤثرات الصوتية في التطبيق.
-        </p>
-
-
-        <div class="epic-modal-actions">
-
-            <button
-                class="epic-btn-gold"
-                onclick="playEpicKatanaSound(); closeEpicAudioSettingsModal();">
-
-                حفظ والعودة
-
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- JavaScript -->
 <script src="script.js"></script>
-
-
 </body>
 </html>

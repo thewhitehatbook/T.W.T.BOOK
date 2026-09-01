@@ -1,47 +1,23 @@
 :root {
     --epic-bg-main: #05070b;
     --epic-bg-panel: #0b0f17;
-    --epic-card-bg: rgba(14, 20, 32, 0.95);
+    --epic-card-bg: rgba(14, 20, 32, 0.45);
     --epic-text-main: #f8fafc;
-    --epic-text-muted: #94a3b8;
+    --epic-text-muted: #ffffff;
     --epic-accent: #dc2626;
-    --epic-accent-glow: rgba(220, 38, 38, 0.5);
-    --epic-gold: #f59e0b;
-    --epic-gold-glow: rgba(245, 158, 11, 0.35);
+    --epic-accent-glow: rgba(220, 38, 38, 0.6);
+    --epic-gold: #dc2626; 
+    --epic-gold-glow: rgba(220, 38, 38, 0.4); 
     --epic-gradient-gold: linear-gradient(
         135deg,
-        #f59e0b 0%,
-        #d97706 50%,
-        #78350f 100%
-    );
-    --epic-border-gold: rgba(245, 158, 11, 0.35);
+        #dc2626 0%,
+        #991b1b 50%,
+        #450a0a 100%
+    ); 
+    --epic-border-gold: rgba(220, 38, 38, 0.45); 
     --epic-shadow: 0 35px 70px -15px rgba(0, 0, 0, 0.95);
     --epic-radius: 22px;
     --epic-transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* =========================
-   الوضع النهاري
-   ========================= */
-
-body.light-mode-active {
-    --epic-bg-main: #e2e8f0;
-    --epic-bg-panel: #f8fafc;
-    --epic-card-bg: rgba(255, 255, 255, 0.97);
-    --epic-text-main: #0f172a;
-    --epic-text-muted: #475569;
-    --epic-accent: #b91c1c;
-    --epic-accent-glow: rgba(185, 28, 28, 0.25);
-    --epic-gold: #d97706;
-    --epic-gold-glow: rgba(217, 119, 6, 0.2);
-    --epic-gradient-gold: linear-gradient(
-        135deg,
-        #d97706 0%,
-        #b45309 50%,
-        #451a03 100%
-    );
-    --epic-border-gold: rgba(217, 119, 6, 0.4);
-    --epic-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.18);
 }
 
 /* =========================
@@ -124,16 +100,11 @@ body.epic-body-container {
 @keyframes swordPulseAnim {
     from {
         transform: scale(1) rotate(-10deg);
-        filter: drop-shadow(
-            0 0 10px var(--epic-gold-glow)
-        );
+        filter: drop-shadow(0 0 10px var(--epic-gold-glow));
     }
-
     to {
         transform: scale(1.25) rotate(10deg);
-        filter: drop-shadow(
-            0 0 30px var(--epic-gold)
-        );
+        filter: drop-shadow(0 0 30px var(--epic-gold));
     }
 }
 
@@ -168,13 +139,8 @@ body.epic-body-container {
 }
 
 @keyframes progressFillAnim {
-    0% {
-        transform: translateX(-100%);
-    }
-
-    100% {
-        transform: translateX(100%);
-    }
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
 }
 
 /* =========================
@@ -182,6 +148,10 @@ body.epic-body-container {
    ========================= */
 
 .epic-app-wrapper {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), url('sk.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     width: 100%;
     max-width: 460px;
     height: 100vh;
@@ -201,14 +171,20 @@ body.epic-body-container {
    ========================= */
 
 .epic-header-master {
+    background: rgba(15, 23, 42, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 16px 22px;
-    background: var(--epic-card-bg);
-    backdrop-filter: blur(20px);
     border-bottom: 2px solid var(--epic-border-gold);
     z-index: 40;
+    box-shadow: 0 4px 20px rgba(220, 38, 38, 0.3);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.epic-header-master:hover {
+    box-shadow: 0 6px 25px var(--epic-accent-glow);
 }
 
 .brand-identity-box {
@@ -218,24 +194,20 @@ body.epic-body-container {
     cursor: pointer;
 }
 
-.brand-crest {
-    font-size: 1.5rem;
-}
-
 .brand-text-group {
     display: flex;
     flex-direction: column;
 }
 
 .brand-main-name {
-    font-size: 1.15rem;
+    font-size: 1.60rem;
     font-weight: 900;
     color: var(--epic-gold);
     font-family: 'Amiri', serif;
 }
 
 .brand-sub-name {
-    font-size: 0.72rem;
+    font-size: 0.80rem;
     color: var(--epic-text-muted);
     font-weight: 700;
 }
@@ -251,7 +223,9 @@ body.epic-body-container {
 }
 
 .epic-tool-btn {
-    background: var(--epic-card-bg);
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     border: 1px solid var(--epic-border-gold);
     color: var(--epic-text-main);
     width: 40px;
@@ -262,13 +236,15 @@ body.epic-body-container {
     justify-content: center;
     align-items: center;
     font-size: 1rem;
+    box-shadow: 0 0 12px rgba(220, 38, 38, 0.3);
+    transition: var(--epic-transition);
 }
 
 .epic-tool-btn:hover {
-    border-color: var(--epic-gold);
-    background: var(--epic-gold-glow);
+    border-color: var(--epic-accent);
+    background: rgba(220, 38, 38, 0.3);
     transform: translateY(-2px);
-    box-shadow: 0 6px 15px var(--epic-gold-glow);
+    box-shadow: 0 0 25px var(--epic-accent-glow), 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* =========================
@@ -288,7 +264,7 @@ body.epic-body-container {
 }
 
 .epic-viewport-canvas::-webkit-scrollbar-track {
-    background: var(--epic-bg-main);
+    background: transparent;
 }
 
 .epic-viewport-canvas::-webkit-scrollbar-thumb {
@@ -298,12 +274,7 @@ body.epic-body-container {
 
 .epic-view-section {
     display: none;
-    animation: viewSlideInAnim 0.4s cubic-bezier(
-        0.16,
-        1,
-        0.3,
-        1
-    ) forwards;
+    animation: viewSlideInAnim 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .epic-view-section.active {
@@ -315,7 +286,6 @@ body.epic-body-container {
         opacity: 0;
         transform: translateY(18px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
@@ -333,15 +303,16 @@ body.epic-body-container {
 }
 
 .clean-epic-title {
-    font-size: 1.85rem;
+    font-size: 2.20rem;
     font-weight: 900;
     color: var(--epic-gold);
     font-family: 'Amiri', serif;
     margin-bottom: 4px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
 }
 
 .clean-epic-author {
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: var(--epic-text-muted);
     font-weight: 700;
 }
@@ -358,6 +329,8 @@ body.epic-body-container {
 
 .epic-nav-card {
     background: var(--epic-card-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border: 1px solid var(--epic-border-gold);
     padding: 18px 20px;
     border-radius: 18px;
@@ -366,21 +339,23 @@ body.epic-body-container {
     align-items: center;
     gap: 16px;
     text-align: right;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
     color: var(--epic-text-main);
     width: 100%;
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+    transition: var(--epic-transition);
 }
 
 .epic-nav-card:hover {
-    border-color: var(--epic-gold);
-    background: var(--epic-gold-glow);
+    border-color: var(--epic-accent);
+    background: rgba(220, 38, 38, 0.25);
     transform: translateY(-3px);
-    box-shadow: 0 12px 30px var(--epic-gold-glow);
+    box-shadow: 0 0 25px var(--epic-accent-glow), 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
 .nav-card-icon {
     font-size: 1.8rem;
-    background: var(--epic-bg-main);
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(4px);
     width: 52px;
     height: 52px;
     border-radius: 14px;
@@ -427,6 +402,7 @@ body.epic-body-container {
 
 .epic-back-btn {
     background: var(--epic-card-bg);
+    backdrop-filter: blur(6px);
     border: 1px solid var(--epic-border-gold);
     color: var(--epic-text-main);
     width: 42px;
@@ -438,11 +414,13 @@ body.epic-body-container {
     align-items: center;
     font-size: 1.2rem;
     flex-shrink: 0;
+    box-shadow: 0 0 10px rgba(220, 38, 38, 0.25);
 }
 
 .epic-back-btn:hover {
-    border-color: var(--epic-gold);
-    background: var(--epic-gold-glow);
+    border-color: var(--epic-accent);
+    background: rgba(220, 38, 38, 0.3);
+    box-shadow: 0 0 20px var(--epic-accent-glow);
 }
 
 .epic-section-header h2 {
@@ -470,6 +448,8 @@ body.epic-body-container {
 
 .epic-season-box {
     background: var(--epic-card-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border: 1px solid var(--epic-border-gold);
     padding: 22px 14px;
     border-radius: 18px;
@@ -478,21 +458,22 @@ body.epic-body-container {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.25);
+    transition: var(--epic-transition);
 }
 
 .epic-season-box.unlocked:hover {
-    border-color: var(--epic-gold);
-    background: var(--epic-gold-glow);
+    border-color: var(--epic-accent);
+    background: rgba(220, 38, 38, 0.3);
     transform: translateY(-3px);
-    box-shadow: 0 10px 25px var(--epic-gold-glow);
+    box-shadow: 0 0 25px var(--epic-accent-glow), 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
 .epic-season-box.locked {
     opacity: 0.45;
     cursor: not-allowed;
     filter: grayscale(0.85);
-    background: var(--epic-bg-main);
+    background: rgba(5, 7, 11, 0.5);
 }
 
 .season-num-big {
@@ -509,7 +490,8 @@ body.epic-body-container {
 .season-status-pill {
     font-size: 0.72rem;
     color: var(--epic-text-muted);
-    background: var(--epic-bg-main);
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(4px);
     padding: 4px 10px;
     border-radius: 12px;
     align-self: center;
@@ -523,36 +505,24 @@ body.epic-body-container {
 #epicSeasonsListContainer .epic-season-box:nth-child(1),
 .epic-seasons-grid .epic-season-box:nth-child(1) {
     background-image:
-        linear-gradient(
-            rgba(0, 0, 0, 0.55),
-            rgba(0, 0, 0, 0.75)
-        ),
+        linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
         url('season1_cover.png');
-
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-
-    border-color: var(--epic-gold);
-    box-shadow:
-        0 10px 30px rgba(245, 158, 11, 0.25);
+    border-color: var(--epic-border-gold);
+    box-shadow: 0 4px 20px rgba(220, 38, 38, 0.35);
 }
 
-.epic-seasons-grid
-.epic-season-box:nth-child(1)
-.season-num-big,
-.epic-seasons-grid
-.epic-season-box:nth-child(1)
-.season-name-txt {
+.epic-seasons-grid .epic-season-box:nth-child(1) .season-num-big,
+.epic-seasons-grid .epic-season-box:nth-child(1) .season-name-txt {
     color: #ffffff;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
-.epic-seasons-grid
-.epic-season-box:nth-child(1)
-.season-status-pill {
-    background: rgba(245, 158, 11, 0.9);
-    color: #05070b;
+.epic-seasons-grid .epic-season-box:nth-child(1) .season-status-pill {
+    background: rgba(220, 38, 38, 0.9);
+    color: #ffffff;
     font-weight: 900;
     border: none;
 }
@@ -646,13 +616,8 @@ body.epic-body-container {
 }
 
 /* =========================
-   الإعدادات — الشكل الجديد
+   الإعدادات
    ========================= */
-
-/*
-   نخلي صفحة الإعدادات نفسها
-   عبارة عن لوحة صغيرة بدل صفحة كاملة
-*/
 
 #view-settings {
     width: 100%;
@@ -662,11 +627,8 @@ body.epic-body-container {
     border: 1px solid var(--epic-border-gold);
     border-radius: 20px;
     padding: 18px;
-    box-shadow:
-        0 18px 45px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
 }
-
-/* عنوان الإعدادات */
 
 #view-settings .epic-section-header {
     margin-bottom: 16px;
@@ -681,8 +643,6 @@ body.epic-body-container {
     display: none;
 }
 
-/* زر الرجوع */
-
 #view-settings .epic-back-btn {
     width: 36px;
     height: 36px;
@@ -690,20 +650,15 @@ body.epic-body-container {
     font-size: 1rem;
 }
 
-/* الكرت الداخلي */
-
 #view-settings .epic-author-card {
     background: transparent;
     border: none;
     padding: 0;
     box-shadow: none;
-
     display: flex;
     flex-direction: column;
     gap: 9px;
 }
-
-/* كل أزرار الإعدادات */
 
 #view-settings .epic-author-card button,
 #view-settings .epic-nav-card {
@@ -713,8 +668,6 @@ body.epic-body-container {
     border-radius: 12px;
     font-size: 0.78rem;
 }
-
-/* أزرار gold */
 
 #view-settings .epic-btn-gold {
     background: var(--epic-bg-main);
@@ -729,8 +682,6 @@ body.epic-body-container {
     border-color: var(--epic-gold);
     transform: translateY(-1px);
 }
-
-/* زر الصوت */
 
 #view-settings .epic-btn-dim {
     background: var(--epic-bg-main);
@@ -753,6 +704,11 @@ body.epic-body-container {
     min-height: 150px;
 }
 
+#view-notes .epic-author-card,
+#view-notes .epic-author-card * {
+    color: #ffffff !important;
+}
+
 /* =========================
    الخريطة
    ========================= */
@@ -764,6 +720,7 @@ body.epic-body-container {
     border-radius: 18px;
     padding: 10px;
     overflow: hidden;
+    box-shadow: 0 4px 20px rgba(220, 38, 38, 0.3);
 }
 
 .epic-discovered-map {
@@ -794,7 +751,7 @@ body.epic-body-container {
     color: #ffffff;
     font-weight: 800;
     font-size: 0.85rem;
-    border: 1px solid rgba(255,255,255,0.15);
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .epic-social-btn:hover {
@@ -803,14 +760,7 @@ body.epic-body-container {
 }
 
 .epic-social-btn.instagram {
-    background: linear-gradient(
-        45deg,
-        #f09433,
-        #e6683c,
-        #dc2743,
-        #cc2366,
-        #bc1888
-    );
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
 }
 
 .epic-social-btn.tiktok {
@@ -831,36 +781,6 @@ body.epic-body-container {
 }
 
 /* =========================
-   زر إنستغرام القديم
-   ========================= */
-
-.epic-btn-instagram {
-    display: block;
-    background: linear-gradient(
-        45deg,
-        #f09433 0%,
-        #e6683c 25%,
-        #dc2743 50%,
-        #cc2366 75%,
-        #bc1888 100%
-    );
-    color: #ffffff;
-    text-align: center;
-    text-decoration: none;
-    padding: 14px;
-    border-radius: 12px;
-    font-weight: 900;
-    margin-top: 20px;
-    font-family: 'Cairo', sans-serif;
-    box-shadow: 0 5px 15px rgba(220, 39, 67, 0.3);
-}
-
-.epic-btn-instagram:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(220, 39, 67, 0.5);
-}
-
-/* =========================
    شريط التقدم
    ========================= */
 
@@ -869,7 +789,8 @@ body.epic-body-container {
     padding: 14px 18px;
     border-radius: 14px;
     border: 1px solid var(--epic-border-gold);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 16px;
 }
 
 .progress-text {
@@ -887,19 +808,14 @@ body.epic-body-container {
     background: var(--epic-bg-main);
     border-radius: 6px;
     overflow: hidden;
-    border: 1px solid rgba(245, 158, 11, 0.2);
+    border: 1px solid rgba(220, 38, 38, 0.2);
 }
 
 .progress-bar-fill {
     height: 100%;
     width: 0%;
     background: var(--epic-gradient-gold);
-    transition: width 0.8s cubic-bezier(
-        0.16,
-        1,
-        0.3,
-        1
-    );
+    transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .watched-badge {
@@ -922,7 +838,7 @@ body.epic-body-container {
 .epic-modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.84);
+    background: rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
     display: none;
     justify-content: center;
@@ -932,7 +848,7 @@ body.epic-body-container {
 }
 
 .epic-modal-card {
-    background: var(--epic-bg-panel);
+    background: rgba(0, 0, 0, 0.5);
     border: 2px solid var(--epic-gold);
     padding: 30px 24px;
     border-radius: var(--epic-radius);
@@ -977,8 +893,7 @@ body.epic-body-container {
 
 .epic-input-field:focus {
     border-color: var(--epic-gold);
-    box-shadow:
-        0 0 0 3px var(--epic-gold-glow);
+    box-shadow: 0 0 0 3px var(--epic-gold-glow);
 }
 
 .epic-modal-actions {
@@ -1024,30 +939,86 @@ body.epic-body-container {
     color: var(--epic-gold);
 }
 
+/* نافذة بديلة إضافية */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-box {
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(220, 38, 38, 0.4);
+    box-shadow: 0 0 25px rgba(220, 38, 38, 0.5);
+    padding: 25px 35px;
+    border-radius: 16px;
+    text-align: center;
+    color: #fff;
+    width: 300px;
+    font-family: inherit;
+    animation: modalScale 0.3s ease-in-out;
+}
+
+.modal-box h3 {
+    margin-bottom: 10px;
+    color: #ef4444;
+}
+
+.modal-box p {
+    margin-bottom: 20px;
+    font-size: 15px;
+    color: #cbd5e1;
+}
+
+.modal-box button {
+    background: linear-gradient(135deg, #dc2626, #991b1b);
+    color: white;
+    border: none;
+    padding: 8px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+    box-shadow: 0 4px 10px rgba(220, 38, 38, 0.4);
+}
+
+.modal-box button:hover {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.8);
+}
+
+@keyframes modalScale {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
 /* =========================
-   الهاتف
+   الهاتف والموبايل
    ========================= */
 
 @media (max-width: 480px) {
-
     .epic-app-wrapper {
         border-radius: 0;
         border-left: none;
         border-right: none;
     }
-
     .epic-header-master {
         padding: 13px 16px;
     }
-
     .epic-viewport-canvas {
         padding: 18px;
     }
-
     .clean-epic-title {
         font-size: 1.65rem;
     }
-
     #view-settings {
         max-width: 260px;
         margin-top: 25px;
@@ -1055,14 +1026,8 @@ body.epic-body-container {
     }
 }
 
-
 @media (min-width: 700px) {
-
     .epic-app-wrapper {
         height: 94vh;
     }
-}
-#view-notes .epic-author-card,
-#view-notes .epic-author-card * {
-    color: #ffffff !important;
 }
