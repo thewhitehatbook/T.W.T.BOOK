@@ -5,7 +5,7 @@
 'use strict';
 
 const SamuraiAppEngine = {
-    version: '4.3.1',
+    version: '4.3.4',
     author: 'سجاد ثامر',
     activeSeason: 1,
     totalSeasons: 6,
@@ -19,6 +19,9 @@ const SamuraiAppEngine = {
         clickVolume: 0.6 
     },
     bgAudioInstance: null,
+    currentSectionAudio: null, 
+    sectionAudioInstances: {},
+    isUserMuted: false, // متغير لتتبع إذا كان المستخدم كتم الصوت بنفسه
 
     storageKeys: {
         ratings: 'epic_samurai_ratings',
@@ -41,10 +44,11 @@ const SamuraiAppEngine = {
 
         const startMusic = () => {
             if (!this.bgAudioInstance) return;
+            if (this.isUserMuted) return; // لا تشغلها إذا كان المستخدم مكتمها مسبقاً
             this.bgAudioInstance.play()
                 .then(() => {
                     const iconEl = document.getElementById('musicToggleIcon');
-                    if (iconEl) iconEl.innerText = '🔊';
+                    if (iconEl && !this.currentSectionAudio) iconEl.innerText = '🔊';
                     document.removeEventListener('click', startMusic);
                     document.removeEventListener('touchstart', startMusic);
                     document.removeEventListener('keydown', startMusic);
@@ -59,16 +63,20 @@ const SamuraiAppEngine = {
     },
 
     toggleBackgroundMusic() {
-        if (!this.bgAudioInstance) return;
         const iconEl = document.getElementById('musicToggleIcon');
+        const activeAudio = this.currentSectionAudio || this.bgAudioInstance;
+        if (!activeAudio) return;
 
-        if (this.bgAudioInstance.paused) {
-            this.bgAudioInstance.play()
+        if (!activeAudio.paused) {
+            if (this.bgAudioInstance) this.bgAudioInstance.pause();
+            if (this.currentSectionAudio) this.currentSectionAudio.pause();
+            this.isUserMuted = true; // المستخدم كتم الصوت يدوياً
+            if (iconEl) iconEl.innerText = '🔇';
+        } else {
+            this.isUserMuted = false; // المستخدم شغّل الصوت يدوياً
+            activeAudio.play()
                 .then(() => { if (iconEl) iconEl.innerText = '🔊'; })
                 .catch(() => {});
-        } else {
-            this.bgAudioInstance.pause();
-            if (iconEl) iconEl.innerText = '🔇';
         }
     },
 
@@ -79,6 +87,59 @@ const SamuraiAppEngine = {
             clickAudio.currentTime = 0;
             clickAudio.play().catch(err => {});
         } catch (err) {}
+    },
+
+    playSectionSong(songFileName) {
+        if (this.bgAudioInstance) {
+            this.bgAudioInstance.pause();
+        }
+
+        for (let key in this.sectionAudioInstances) {
+            if (this.sectionAudioInstances[key]) {
+                this.sectionAudioInstances[key].pause();
+                this.sectionAudioInstances[key].currentTime = 0;
+            }
+        }
+
+        if (!this.sectionAudioInstances[songFileName]) {
+            this.sectionAudioInstances[songFileName] = new Audio(songFileName);
+            this.sectionAudioInstances[songFileName].loop = true;
+            this.sectionAudioInstances[songFileName].volume = 0.5;
+        }
+
+        this.currentSectionAudio = this.sectionAudioInstances[songFileName];
+        
+        // تشغيل أغنية القسم فقط إذا لم يكن المستخدم مكتم الصوت بشكل عام
+        if (!this.isUserMuted) {
+            this.currentSectionAudio.play().catch(err => {
+                console.log("حظر المتصفح لتشغيل الصوت:", err);
+            });
+        }
+
+        const iconEl = document.getElementById('musicToggleIcon');
+        if (iconEl && !this.isUserMuted) iconEl.innerText = '🔊';
+    },
+
+    stopAllSectionSongsAndResumeMain() {
+        for (let key in this.sectionAudioInstances) {
+            if (this.sectionAudioInstances[key]) {
+                this.sectionAudioInstances[key].pause();
+                this.sectionAudioInstances[key].currentTime = 0;
+            }
+        }
+        this.currentSectionAudio = null;
+
+        if (this.bgAudioInstance) {
+            const iconEl = document.getElementById('musicToggleIcon');
+            // إذا كان المستخدم مكتم الصوت، تبقى متوقفة تماماً
+            if (this.isUserMuted) {
+                this.bgAudioInstance.pause();
+                if (iconEl) iconEl.innerText = '🔇';
+            } else {
+                this.bgAudioInstance.play().catch(err => {});
+                if (iconEl) iconEl.innerText = '🔊';
+            }
+        }
     },
 
     preloadCinematicLoader() {
@@ -99,6 +160,10 @@ const SamuraiAppEngine = {
     },
 
     switchView(targetViewId) {
+        if (targetViewId === 'view-home') {
+            this.stopAllSectionSongsAndResumeMain();
+        }
+
         const allSections = document.querySelectorAll('.epic-view-section');
         allSections.forEach(sec => sec.classList.remove('active'));
         const targetSec = document.getElementById(targetViewId);
@@ -275,7 +340,7 @@ const SamuraiAppEngine = {
         scoreInput.value = '';
 
         this.renderRatingsStats();
-        openCustomAlertModal(`أيها المحارب الباسل (${raterName})، تم توثيق تقييمك بنجاح!`);
+        openCustomAlertModal(`أيها المحارب الباسل (${raterName}), تم توثيق تقييمك بنجاح!`);
     },
 
     renderRatingsStats() {
@@ -297,7 +362,6 @@ const SamuraiAppEngine = {
 
 window.addEventListener('DOMContentLoaded', () => SamuraiAppEngine.init());
 
-// دوال التحكم بالنافذة المنبثقة المخصصة (تلغي رسائل كروم تماماً)
 function showCustomAlert(message) {
     const modal = document.getElementById('epicCustomAlertModal');
     const textEl = document.getElementById('epicAlertMessageText');
@@ -315,9 +379,17 @@ function openCustomAlertModal(message) {
     showCustomAlert(message);
 }
 
-// الدوال العامة المربوطة بالأزرار
 function playEpicKatanaSound() { SamuraiAppEngine.playKatanaSlashSound(); }
 function switchEpicView(viewId) { SamuraiAppEngine.playKatanaSlashSound(); SamuraiAppEngine.switchView(viewId); }
 function openEpicHonorModal() { SamuraiAppEngine.openModal('epicHonorModal'); }
 function closeEpicHonorModal() { SamuraiAppEngine.closeModal('epicHonorModal'); }
 function submitEpicRating() { SamuraiAppEngine.submitRating(); }
+function toggleBackgroundMusic() { SamuraiAppEngine.toggleBackgroundMusic(); }
+
+function openJourneySection(viewId, songFileName) {
+    SamuraiAppEngine.playKatanaSlashSound();
+    if (songFileName) {
+        SamuraiAppEngine.playSectionSong(songFileName);
+    }
+    SamuraiAppEngine.switchView(viewId);
+}
