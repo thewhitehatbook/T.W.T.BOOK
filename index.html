@@ -112,6 +112,22 @@
             <div class="epic-episodes-list" id="epicEpisodesListContainer" style="margin-top: 20px;"></div>
         </section>
 
+<!-- =========================
+     قسم عارض المخطوطة (PDF)
+     ========================= -->
+<section id="view-pdf-reader" class="epic-view-section">
+    <!-- الشريط العلوي الاحترافي مع زر العودة المتناسق -->
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: rgba(11, 15, 23, 0.85); border-bottom: 1px solid var(--epic-border-gold); position: relative; z-index: 10;">
+        <button class="epic-back-btn" onclick="playEpicKatanaSound(); switchEpicView('view-episodes');" title="العودة">
+            ←
+        </button>
+    </div>
+
+    <!-- إطار عرض الملف ممتد بالكامل بدون أشرطة إضافية -->
+    <div style="flex-grow: 1; width: 100%; height: calc(100% - 65px); background: var(--epic-bg-main); overflow: hidden;">
+        <iframe id="epicPdfIframe" src="" style="width: 100%; height: 100%; border: none; display: block;"></iframe>
+    </div>
+</section>
         <!-- مذكرات سيزوكي -->
         <section id="view-notes" class="epic-view-section">
             <div class="epic-section-header">
@@ -169,12 +185,10 @@
     </main>
 </div>
 
-
-
-<!-- نافذة رسالة التنبيه المخصصة (بديلة رسائل كروم) -->
+<!-- نافذة رسالة التنبيه المخصصة -->
 <div id="epicCustomAlertModal" class="epic-modal-overlay">
     <div class="epic-modal-card">
-        <h3>⚔️ إشعار الساموراي</h3>
+        <h3>⚔️ إشعار من سيزوكي</h3>
         <p id="epicAlertMessageText">هنا نص الرسالة أو التنبيه...</p>
         <div class="epic-modal-actions">
             <button class="epic-btn-gold" onclick="playEpicKatanaSound(); closeCustomAlert();">
