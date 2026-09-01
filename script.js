@@ -5,7 +5,7 @@
 'use strict';
 
 const SamuraiAppEngine = {
-    version: '4.3.1',
+    version: '4.3.2',
     author: 'سجاد ثامر',
     activeSeason: 1,
     totalSeasons: 6,
@@ -21,7 +21,7 @@ const SamuraiAppEngine = {
     bgAudioInstance: null,
     currentSectionAudio: null, 
     sectionAudioInstances: {},
-    isUserMuted: false, // متغير لتتبع إذا كان المستخدم كتم الصوت بنفسه
+    isUserMuted: false,
 
     storageKeys: {
         ratings: 'epic_samurai_ratings',
@@ -44,7 +44,7 @@ const SamuraiAppEngine = {
 
         const startMusic = () => {
             if (!this.bgAudioInstance) return;
-            if (this.isUserMuted) return; // لا تشغلها إذا كان المستخدم مكتمها مسبقاً
+            if (this.isUserMuted) return;
             this.bgAudioInstance.play()
                 .then(() => {
                     const iconEl = document.getElementById('musicToggleIcon');
@@ -70,10 +70,10 @@ const SamuraiAppEngine = {
         if (!activeAudio.paused) {
             if (this.bgAudioInstance) this.bgAudioInstance.pause();
             if (this.currentSectionAudio) this.currentSectionAudio.pause();
-            this.isUserMuted = true; // المستخدم كتم الصوت يدوياً
+            this.isUserMuted = true;
             if (iconEl) iconEl.innerText = '🔇';
         } else {
-            this.isUserMuted = false; // المستخدم شغّل الصوت يدوياً
+            this.isUserMuted = false;
             activeAudio.play()
                 .then(() => { if (iconEl) iconEl.innerText = '🔊'; })
                 .catch(() => {});
@@ -109,11 +109,8 @@ const SamuraiAppEngine = {
 
         this.currentSectionAudio = this.sectionAudioInstances[songFileName];
         
-        // تشغيل أغنية القسم فقط إذا لم يكن المستخدم مكتم الصوت بشكل عام
         if (!this.isUserMuted) {
-            this.currentSectionAudio.play().catch(err => {
-                console.log("حظر المتصفح لتشغيل الصوت:", err);
-            });
+            this.currentSectionAudio.play().catch(err => {});
         }
 
         const iconEl = document.getElementById('musicToggleIcon');
@@ -131,7 +128,6 @@ const SamuraiAppEngine = {
 
         if (this.bgAudioInstance) {
             const iconEl = document.getElementById('musicToggleIcon');
-            // إذا كان المستخدم مكتم الصوت، تبقى متوقفة تماماً
             if (this.isUserMuted) {
                 this.bgAudioInstance.pause();
                 if (iconEl) iconEl.innerText = '🔇';
@@ -197,7 +193,7 @@ const SamuraiAppEngine = {
             } else {
                 seasonBox.className = 'epic-season-box locked';
                 seasonBox.onclick = () => {
-                    openCustomAlertModal('🔒 هذا الموسم قريباً جداً.');
+                    openCustomAlertModal('عليك أن تنتظر قدوم سيزوكي إلى هذا الموسم.');
                 };
                 seasonBox.innerHTML = `
                     <div class="season-num-big">🔒</div>
@@ -252,7 +248,7 @@ const SamuraiAppEngine = {
             const rowEl = document.createElement('div');
             const epId = `s${seasonNum}_e${ep}`;
             const isWatched = watchedList.includes(epId);
-            const watchedBadgeHTML = isWatched ? `<span class="watched-badge">✔️ تمت المشاهدة</span>` : '';
+            const watchedBadgeHTML = isWatched ? `<span class="watched-badge">✔️ تمت القراءة</span>` : '';
 
             if (ep <= this.unlockedEpisodesDownloadLimit) {
                 rowEl.className = 'epic-episode-row';
@@ -260,8 +256,8 @@ const SamuraiAppEngine = {
                     <div class="episode-info-grp">
                         <h4 style="display:flex; align-items:center; flex-wrap:wrap; gap:5px;">الحلقة رقم ${ep} ${watchedBadgeHTML}</h4>
                     </div>
-                    <button class="epic-download-btn" onclick="SamuraiAppEngine.handleEpisodeDownload(${seasonNum}, ${ep});">
-                        ${isWatched ? 'إعادة التحميل' : '📥 تحميل / قراءة'}
+                    <button class="epic-download-btn" onclick="SamuraiAppEngine.handleEpisodeRead(${seasonNum}, ${ep});">
+                        ${isWatched ? 'إعادة قراءة' : '📖 عرض المخطوطة'}
                     </button>
                 `;
             } else {
@@ -278,85 +274,30 @@ const SamuraiAppEngine = {
         this.updateCompletionProgress(seasonNum);
     },
 
-    handleEpisodeDownload(seasonNum, epNum) {
+    // دالة عرض الحلقة كملف PDF داخلياً دون تحميل خارجي
+    handleEpisodeRead(seasonNum, epNum) {
         this.playKatanaSlashSound();
         this.markEpisodeAsWatched(seasonNum, epNum);
         
-        const fileName = `s${seasonNum}_ep${epNum}.docx`;
-        try {
-            const anchor = document.createElement('a');
-            anchor.href = fileName;
-            anchor.download = fileName;
-            document.body.appendChild(anchor);
-            anchor.click();
-            document.body.removeChild(anchor);
-        } catch (err) {}
+        const pdfFileName = `s${seasonNum}_ep${epNum}.pdf#toolbar=0&navpanes=0&scrollbar=0`;
+        const episodeTitle = `الموسم ${seasonNum} - الحلقة رقم ${epNum}`;
+        
+        const iframeEl = document.getElementById('epicPdfIframe');
+        if (iframeEl) iframeEl.src = pdfFileName;
+        
+        this.switchView('view-pdf-reader');
     },
 
     openModal(modalId) {
         this.playKatanaSlashSound();
         const modal = document.getElementById(modalId);
-        if (modal) {
-            modal.style.display = 'flex';
-            if (modalId === 'epicHonorModal') {
-                this.renderRatingsStats();
-            }
-        }
+        if (modal) modal.style.display = 'flex';
     },
 
     closeModal(modalId) {
         this.playKatanaSlashSound();
         const modal = document.getElementById(modalId);
-        if (modal) {
-            modal.style.display = 'none';
-        }
-    },
-
-    submitRating() {
-        this.playKatanaSlashSound();
-        const nameInput = document.getElementById('epicRaterName');
-        const scoreInput = document.getElementById('epicRaterScore');
-
-        if (!nameInput || !scoreInput) return;
-
-        const raterName = nameInput.value.trim();
-        const raterScore = parseFloat(scoreInput.value);
-
-        if (!raterName) {
-            openCustomAlertModal("عذراً، يجب إدخال اسمك أو لقبك الكريم أولاً.");
-            return;
-        }
-
-        if (isNaN(raterScore) || raterScore < 0 || raterScore > 5) {
-            openCustomAlertModal("قيمة التقييم غير صالحة. يجب أن تكون حصراً بين 0 و 5.");
-            return;
-        }
-
-        const ratingsList = JSON.parse(localStorage.getItem(this.storageKeys.ratings) || '[]');
-        ratingsList.push({ name: raterName, score: raterScore });
-        localStorage.setItem(this.storageKeys.ratings, JSON.stringify(ratingsList));
-
-        nameInput.value = '';
-        scoreInput.value = '';
-
-        this.renderRatingsStats();
-        openCustomAlertModal(`أيها المحارب الباسل (${raterName}), تم توثيق تقييمك بنجاح!`);
-    },
-
-    renderRatingsStats() {
-        const ratingsList = JSON.parse(localStorage.getItem(this.storageKeys.ratings) || '[]');
-        const statsBox = document.getElementById('epicRatingStatsDisplay');
-        if (!statsBox) return;
-
-        if (ratingsList.length === 0) {
-            statsBox.innerText = "لم يتم تسجيل أي تقييمات بعد.";
-            return;
-        }
-
-        let sum = 0;
-        ratingsList.forEach(item => sum += item.score);
-        const avg = (sum / ratingsList.length).toFixed(1);
-        statsBox.innerText = `⭐ متوسط التقييمات: ${avg} / 5 (عبر مشاركة ${ratingsList.length} محاربين)`;
+        if (modal) modal.style.display = 'none';
     }
 };
 
@@ -381,9 +322,6 @@ function openCustomAlertModal(message) {
 
 function playEpicKatanaSound() { SamuraiAppEngine.playKatanaSlashSound(); }
 function switchEpicView(viewId) { SamuraiAppEngine.playKatanaSlashSound(); SamuraiAppEngine.switchView(viewId); }
-function openEpicHonorModal() { SamuraiAppEngine.openModal('epicHonorModal'); }
-function closeEpicHonorModal() { SamuraiAppEngine.closeModal('epicHonorModal'); }
-function submitEpicRating() { SamuraiAppEngine.submitRating(); }
 function toggleBackgroundMusic() { SamuraiAppEngine.toggleBackgroundMusic(); }
 
 function openJourneySection(viewId, songFileName) {
