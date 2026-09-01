@@ -5,7 +5,7 @@
 'use strict';
 
 const SamuraiAppEngine = {
-    version: '4.3.4',
+    version: '4.3.1',
     author: 'سجاد ثامر',
     activeSeason: 1,
     totalSeasons: 6,
