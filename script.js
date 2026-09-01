@@ -14,7 +14,7 @@ const SamuraiAppEngine = {
     
     audioConfig: {
         bgMusicPath: 'itachi.mp3',
-        clickSoundPath: 'katana-schwing.mp3', 
+        clickSoundPath: 'as.mp3', 
         bgVolume: 0.4, 
         clickVolume: 0.6 
     },
