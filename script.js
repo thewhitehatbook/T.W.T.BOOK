@@ -9,8 +9,8 @@ const SamuraiAppEngine = {
     author: 'سجاد ثامر',
     activeSeason: 1,
     totalSeasons: 6,
-    episodesPerSeason: 9,
-    unlockedEpisodesDownloadLimit: 4, 
+    episodesPerSeason: 9, 
+    unlockedEpisodesDownloadLimit: 0, 
     
     audioConfig: {
         bgMusicPath: 'itachi.mp3',
@@ -21,12 +21,13 @@ const SamuraiAppEngine = {
     bgAudioInstance: null,
     currentSectionAudio: null, 
     sectionAudioInstances: {},
-    isUserMuted: false, // متغير لتتبع إذا كان المستخدم كتم الصوت بنفسه
+    isUserMuted: false,
 
     storageKeys: {
         ratings: 'epic_samurai_ratings',
         theme: 'epic_samurai_theme',
-        watched: 'epic_samurai_watched_episodes'
+        watched: 'epic_samurai_watched_episodes',
+        demoDownloaded: 'epic_samurai_demo_downloaded'
     },
 
     init() {
@@ -44,7 +45,7 @@ const SamuraiAppEngine = {
 
         const startMusic = () => {
             if (!this.bgAudioInstance) return;
-            if (this.isUserMuted) return; // لا تشغلها إذا كان المستخدم مكتمها مسبقاً
+            if (this.isUserMuted) return;
             this.bgAudioInstance.play()
                 .then(() => {
                     const iconEl = document.getElementById('musicToggleIcon');
@@ -70,10 +71,10 @@ const SamuraiAppEngine = {
         if (!activeAudio.paused) {
             if (this.bgAudioInstance) this.bgAudioInstance.pause();
             if (this.currentSectionAudio) this.currentSectionAudio.pause();
-            this.isUserMuted = true; // المستخدم كتم الصوت يدوياً
+            this.isUserMuted = true;
             if (iconEl) iconEl.innerText = '🔇';
         } else {
-            this.isUserMuted = false; // المستخدم شغّل الصوت يدوياً
+            this.isUserMuted = false;
             activeAudio.play()
                 .then(() => { if (iconEl) iconEl.innerText = '🔊'; })
                 .catch(() => {});
@@ -109,11 +110,8 @@ const SamuraiAppEngine = {
 
         this.currentSectionAudio = this.sectionAudioInstances[songFileName];
         
-        // تشغيل أغنية القسم فقط إذا لم يكن المستخدم مكتم الصوت بشكل عام
         if (!this.isUserMuted) {
-            this.currentSectionAudio.play().catch(err => {
-                console.log("حظر المتصفح لتشغيل الصوت:", err);
-            });
+            this.currentSectionAudio.play().catch(err => {});
         }
 
         const iconEl = document.getElementById('musicToggleIcon');
@@ -131,7 +129,6 @@ const SamuraiAppEngine = {
 
         if (this.bgAudioInstance) {
             const iconEl = document.getElementById('musicToggleIcon');
-            // إذا كان المستخدم مكتم الصوت، تبقى متوقفة تماماً
             if (this.isUserMuted) {
                 this.bgAudioInstance.pause();
                 if (iconEl) iconEl.innerText = '🔇';
@@ -191,17 +188,17 @@ const SamuraiAppEngine = {
                 };
                 seasonBox.innerHTML = `
                     <div class="season-num-big">0${i}</div>
-                    <div class="season-name-txt">الموسم ${this.seasonNames[i].split(' ')[0]}</div>
+                    <div class="season-name-txt">الجزء ${this.seasonNames[i].split(' ')[0]}</div>
                     <div class="season-status-pill">متاح</div>
                 `;
             } else {
                 seasonBox.className = 'epic-season-box locked';
                 seasonBox.onclick = () => {
-                    openCustomAlertModal('عليك أن تنتظر قدوم سيزوكي إلى هذا الموسم.');
+                    openCustomAlertModal('عليك أن تنتظر قدوم سيزوكي إلى هذا الجزء.');
                 };
                 seasonBox.innerHTML = `
                     <div class="season-num-big">🔒</div>
-                    <div class="season-name-txt">الموسم ${this.seasonNames[i].split(' ')[0]}</div>
+                    <div class="season-name-txt">الجزء ${this.seasonNames[i].split(' ')[0]}</div>
                     <div class="season-status-pill">قريبًا </div>
                 `;
             }
@@ -213,9 +210,9 @@ const SamuraiAppEngine = {
         return JSON.parse(localStorage.getItem(this.storageKeys.watched) || '[]');
     },
 
-    markEpisodeAsWatched(seasonNum, epNum) {
+    markEpisodeAsWatched(seasonNum, epIndex) {
         const watchedList = this.getWatchedEpisodes();
-        const epId = `s${seasonNum}_e${epNum}`;
+        const epId = `s${seasonNum}_e${epIndex}`;
         if (!watchedList.includes(epId)) {
             watchedList.push(epId);
             localStorage.setItem(this.storageKeys.watched, JSON.stringify(watchedList));
@@ -240,7 +237,7 @@ const SamuraiAppEngine = {
         this.switchView('view-episodes');
         
         const titleEl = document.getElementById('epicActiveSeasonTitle');
-        if (titleEl) titleEl.innerText = `الموسم ${this.seasonNames[seasonNum]}`;
+        if (titleEl) titleEl.innerText = `الجزء ${this.seasonNames[seasonNum]}`;
 
         const episodesContainer = document.getElementById('epicEpisodesListContainer');
         if (!episodesContainer) return;
@@ -248,27 +245,35 @@ const SamuraiAppEngine = {
         
         const watchedList = this.getWatchedEpisodes();
 
-        for (let ep = 1; ep <= this.episodesPerSeason; ep++) {
+        for (let epIndex = 0; epIndex < this.episodesPerSeason; epIndex++) {
             const rowEl = document.createElement('div');
-            const epId = `s${seasonNum}_e${ep}`;
+            const epId = `s${seasonNum}_e${epIndex}`;
             const isWatched = watchedList.includes(epId);
-            const watchedBadgeHTML = isWatched ? `<span class="watched-badge">✔️ تمت المشاهدة</span>` : '';
+            const watchedBadgeHTML = isWatched ? `<span class="watched-badge">✔️ تم التحميل</span>` : '';
 
-            if (ep <= this.unlockedEpisodesDownloadLimit) {
+            // تخصيص اسم الحلقة 0 وحدها، وباقي الحلقات تبقى (حلقة 1، حلقة 2، ...)
+            let epTitleText = `الفصل ${epIndex}`;
+            if (epIndex === 0) {
+                epTitleText = ` تحميل الجزء الأول كامل  `; // <-- يمكنك تغيير النص بين الأقواس كما تحب
+            }
+
+            let btnDownloadText = isWatched ? 'إعادة التحميل' : '📥 تحميل الفصل';
+
+            if (epIndex <= this.unlockedEpisodesDownloadLimit - 1) {
                 rowEl.className = 'epic-episode-row';
                 rowEl.innerHTML = `
                     <div class="episode-info-grp">
-                        <h4 style="display:flex; align-items:center; flex-wrap:wrap; gap:5px;">الحلقة رقم ${ep} ${watchedBadgeHTML}</h4>
+                        <h4 style="display:flex; align-items:center; flex-wrap:wrap; gap:5px;">${epTitleText} ${watchedBadgeHTML}</h4>
                     </div>
-                    <button class="epic-download-btn" onclick="SamuraiAppEngine.handleEpisodeDownload(${seasonNum}, ${ep});">
-                        ${isWatched ? 'إعادة التحميل' : '📥 تحميل / قراءة'}
+                    <button class="epic-download-btn" onclick="SamuraiAppEngine.handleEpisodeDownload(${seasonNum}, ${epIndex});">
+                        ${btnDownloadText}
                     </button>
                 `;
             } else {
                 rowEl.className = 'epic-episode-row locked';
                 rowEl.innerHTML = `
                     <div class="episode-info-grp">
-                        <h4>الحلقة رقم ${ep}</h4>
+                        <h4>${epTitleText}</h4>
                     </div>
                     <div class="epic-locked-badge">🔒 قريبًا</div>
                 `;
@@ -278,19 +283,13 @@ const SamuraiAppEngine = {
         this.updateCompletionProgress(seasonNum);
     },
 
-    handleEpisodeDownload(seasonNum, epNum) {
+    handleEpisodeDownload(seasonNum, epIndex) {
         this.playKatanaSlashSound();
-        this.markEpisodeAsWatched(seasonNum, epNum);
+        this.markEpisodeAsWatched(seasonNum, epIndex);
         
-        const fileName = `s${seasonNum}_ep${epNum}.docx`;
-        try {
-            const anchor = document.createElement('a');
-            anchor.href = fileName;
-            anchor.download = fileName;
-            document.body.appendChild(anchor);
-            anchor.click();
-            document.body.removeChild(anchor);
-        } catch (err) {}
+        let fileName = `s${seasonNum}_ep${epIndex}.docx`;
+
+        readDemoEpisode(fileName);
     },
 
     openModal(modalId) {
@@ -392,4 +391,44 @@ function openJourneySection(viewId, songFileName) {
         SamuraiAppEngine.playSectionSong(songFileName);
     }
     SamuraiAppEngine.switchView(viewId);
+}
+
+function readDemoEpisode(fileName) {
+    playEpicKatanaSound();
+    
+    let downloadedDemos = JSON.parse(localStorage.getItem('epic_downloaded_demos') || '[]');
+    if (!downloadedDemos.includes(fileName)) {
+        downloadedDemos.push(fileName);
+        localStorage.setItem('epic_downloaded_demos', JSON.stringify(downloadedDemos));
+    }
+
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(btn => {
+        if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(fileName)) {
+            btn.innerText = 'إعادة التحميل';
+            const row = btn.closest('.epic-episode-row');
+            if (row) {
+                const h4 = row.querySelector('h4');
+                if (h4 && !h4.innerHTML.includes('✔️ تم التحميل')) {
+                    h4.innerHTML += ` <span class="watched-badge">✔️ تم التحميل</span>`;
+                }
+            }
+        }
+    });
+
+    try {
+        const anchor = document.createElement('a');
+        anchor.href = fileName;
+        anchor.download = fileName;
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+    } catch (err) {
+        console.log("خطأ في التحميل:", err);
+    }
+}
+
+function tryOpenSecretEpisode(fileName) {
+    playEpicKatanaSound();
+    openCustomAlertModal("هذه الحلقة الخاصة مقفولة حالياً. عليك اكتشاف سرها أولاً لتتمكن من تحميلها!");
 }

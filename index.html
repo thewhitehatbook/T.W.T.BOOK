@@ -45,7 +45,7 @@
                 <p class="clean-epic-author">سجاد ثامر</p>
             </div>
             <div class="epic-navigation-grid">
-                <button class="epic-nav-card" onclick="openJourneySection('view-seasons', 'sb.mp3')">
+                <button class="epic-nav-card" onclick="openJourneySection('view-seasons', '')">
                     <div class="nav-card-icon">📜</div>
                     <div class="nav-card-content">
                         <h3>رحلة سيزوكي</h3>
@@ -53,6 +53,27 @@
                     </div>
                     <div class="nav-card-arrow">←</div>
                 </button>
+
+                <!-- زر الحلقات التجريبية الجديد -->
+                <button class="epic-nav-card" onclick="openJourneySection('view-demo-episodes', 'sb.mp3');">
+                    <div class="nav-card-icon">⚡</div>
+                    <div class="nav-card-content">
+                        <h3>الفصول التجريبية</h3>
+                        <p></p>
+                    </div>
+                    <div class="nav-card-arrow">←</div>
+                </button>
+
+                <!-- زر الحلقات السرية الجديد -->
+                <button class="epic-nav-card" onclick="openJourneySection('view-secret-episodes', 'af.mp3');">
+                    <div class="nav-card-icon">🔒</div>
+                    <div class="nav-card-content">
+                        <h3>الفصول الخاصة </h3>
+                        <p></p>
+                    </div>
+                    <div class="nav-card-arrow">←</div>
+                </button>
+
                 <button class="epic-nav-card" onclick="openJourneySection('view-author', 'sr.mp3');">
                     <div class="nav-card-icon">✍️</div>
                     <div class="nav-card-content">
@@ -103,13 +124,94 @@
             </div>
             <div class="completion-progress-container">
                 <div class="progress-text">
-                    نسبة الإكمال للموسم: <span id="seasonCompletionText">0%</span>
+                    نسبة الإكمال للجزء: <span id="seasonCompletionText">0%</span>
                 </div>
                 <div class="progress-bar-bg">
                     <div class="progress-bar-fill" id="seasonCompletionBar"></div>
                 </div>
             </div>
             <div class="epic-episodes-list" id="epicEpisodesListContainer" style="margin-top: 20px;"></div>
+        </section>
+
+        <!-- قسم الحلقات التجريبية الجديد -->
+        <section id="view-demo-episodes" class="epic-view-section">
+            <div class="epic-section-header" style="margin-bottom: 10px;">
+                <button class="epic-back-btn" onclick="playEpicKatanaSound(); switchEpicView('view-home');">←</button>
+                <div>
+                    <h2>الفصول التجريبية</h2>
+                    <p>  </p>
+                </div>
+            </div>
+            <div class="epic-episodes-list" style="margin-top: 20px;">
+                <div class="epic-episode-row" onclick="readDemoEpisode('ep1.docx')">
+                    <div class="episode-info-grp">
+                        <h4>الفصل التجريبي 1</h4>
+                    </div>
+                    <button class="epic-download-btn">قراءة</button>
+                </div>
+                <div class="epic-episode-row" onclick="readDemoEpisode('ep2.docx')">
+                    <div class="episode-info-grp">
+                        <h4>الفصل التجريبي 2</h4>
+                    </div>
+                    <button class="epic-download-btn">قراءة</button>
+                </div>
+                <div class="epic-episode-row" onclick="readDemoEpisode('ep3.docx')">
+                    <div class="episode-info-grp">
+                        <h4>الفصل التجريبي 3</h4>
+                    </div>
+                    <button class="epic-download-btn">قراءة</button>
+                </div>
+                <div class="epic-episode-row" onclick="readDemoEpisode('ep4.docx')">
+                    <div class="episode-info-grp">
+                        <h4>الفصل التجريبي 4</h4>
+                    </div>
+                    <button class="epic-download-btn">قراءة</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم الحلقات السرية الجديد -->
+        <section id="view-secret-episodes" class="epic-view-section">
+            <div class="epic-section-header" style="margin-bottom: 10px;">
+                <button class="epic-back-btn" onclick="playEpicKatanaSound(); switchEpicView('view-home');">←</button>
+                <div>
+                    <h2>الفصول الخاصة</h2>
+                    <p>  </p>
+                </div>
+            </div>
+            <div class="epic-episodes-list" style="margin-top: 20px;">
+                <div class="epic-episode-row locked" onclick="tryOpenSecretEpisode('ova.docx')">
+                    <div class="episode-info-grp">
+                        <h4>الفصل الخاص لسيزوكي  </h4>
+                    </div>
+                    <span class="epic-locked-badge">مقفول 🔒</span>
+                </div>
+                <div class="epic-episode-row locked" onclick="tryOpenSecretEpisode('ova2.docx')">
+                    <div class="episode-info-grp">
+                        <h4>الفصل الخاص لنيري وكايتو  </h4>
+                    </div>
+                    <span class="epic-locked-badge">مقفول 🔒</span>
+                </div>
+                <div class="epic-episode-row locked" onclick="tryOpenSecretEpisode('ova3.docx')">
+                    <div class="episode-info-grp">
+                        <h4>الفصل الخاص لإيدوارد  </h4>
+                    </div>
+                    <span class="epic-locked-badge">مقفول 🔒</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- عارض الـ PDF الخاص بالحلقات أو الملفات -->
+        <section id="view-pdf-reader" class="epic-view-section">
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: #05070b !important; border-bottom: 2px solid var(--epic-border-gold); position: relative; z-index: 10;">
+                <button class="epic-back-btn" onclick="playEpicKatanaSound(); switchEpicView('view-demo-episodes');" title="العودة">
+                    ←
+                </button>
+                <div style="width: 40px;"></div>
+            </div>
+            <div style="flex-grow: 1; width: 100%; height: calc(100% - 65px); background: #05070b; overflow: hidden;">
+                <iframe id="epicPdfIframe" src="" style="width: 100%; height: 100%; border: none; display: block;"></iframe>
+            </div>
         </section>
 
         <!-- مذكرات سيزوكي -->
@@ -169,9 +271,7 @@
     </main>
 </div>
 
-
-
-<!-- نافذة رسالة التنبيه المخصصة (بديلة رسائل كروم) -->
+<!-- نافذة رسالة التنبيه المخصصة -->
 <div id="epicCustomAlertModal" class="epic-modal-overlay">
     <div class="epic-modal-card">
         <h3>⚔️ إشعار من سيزوكي</h3>
